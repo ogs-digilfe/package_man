@@ -1,0 +1,787 @@
+
+#### 2024/1/29
+#### 指定した仮想環境にインストールしたがエラーがでた
+#### 同一マシンの別仮想環境にinstallしたことが原因かもしれない
+
+install airflow to venv venv_package_man
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+ipython 8.20.0 requires prompt-toolkit<3.1.0,>=3.0.41, but you have prompt-toolkit 3.0.39 which is incompatible.
+Collecting apache-airflow[celery]==2.7.3
+  Using cached apache_airflow-2.7.3-py3-none-any.whl (12.9 MB)
+Collecting connexion[flask]<3.0,>=2.10.0
+  Using cached connexion-2.14.2-py2.py3-none-any.whl (95 kB)
+Collecting rich-argparse>=1.0.0
+  Using cached rich_argparse-1.4.0-py3-none-any.whl (19 kB)
+Collecting tabulate>=0.7.5
+  Using cached tabulate-0.9.0-py3-none-any.whl (35 kB)
+Collecting unicodecsv>=0.14.1
+  Using cached unicodecsv-0.14.1-py3-none-any.whl
+Collecting pendulum<3.0,>=2.0
+  Using cached pendulum-2.1.2-cp310-cp310-manylinux_2_35_x86_64.whl
+Collecting markdown>=3.0
+  Using cached Markdown-3.5.1-py3-none-any.whl (102 kB)
+Collecting termcolor>=1.1.0
+  Using cached termcolor-2.3.0-py3-none-any.whl (6.9 kB)
+Collecting argcomplete>=1.10
+  Using cached argcomplete-3.1.3-py3-none-any.whl (41 kB)
+Collecting configupdater>=3.1.1
+  Using cached ConfigUpdater-3.1.1-py2.py3-none-any.whl (34 kB)
+Collecting flask-login>=0.6.2
+  Using cached Flask_Login-0.6.3-py3-none-any.whl (17 kB)
+Collecting opentelemetry-exporter-otlp
+  Using cached opentelemetry_exporter_otlp-1.20.0-py3-none-any.whl (7.0 kB)
+Collecting attrs>=22.1.0
+  Using cached attrs-23.1.0-py3-none-any.whl (61 kB)
+Collecting python-slugify>=5.0
+  Using cached python_slugify-8.0.1-py2.py3-none-any.whl (9.7 kB)
+Collecting gunicorn>=20.1.0
+  Using cached gunicorn-21.2.0-py3-none-any.whl (80 kB)
+Collecting graphviz>=0.12
+  Using cached graphviz-0.20.1-py3-none-any.whl (47 kB)
+Collecting python-daemon>=3.0.0
+  Using cached python_daemon-3.0.1-py3-none-any.whl (31 kB)
+Collecting cron-descriptor>=1.2.24
+  Using cached cron_descriptor-1.4.0-py3-none-any.whl
+Collecting jsonschema>=4.18.0
+  Using cached jsonschema-4.19.2-py3-none-any.whl (83 kB)
+Requirement already satisfied: python-dateutil>=2.3 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from apache-airflow[celery]==2.7.3) (2.8.2)
+Collecting deprecated>=1.2.13
+  Using cached Deprecated-1.2.14-py2.py3-none-any.whl (9.6 kB)
+Collecting apache-airflow-providers-common-sql
+  Using cached apache_airflow_providers_common_sql-1.8.0-py3-none-any.whl (31 kB)
+Collecting flask-appbuilder==4.3.6
+  Using cached Flask_AppBuilder-4.3.6-py3-none-any.whl (1.7 MB)
+Collecting itsdangerous>=2.0
+  Using cached itsdangerous-2.1.2-py3-none-any.whl (15 kB)
+Collecting pydantic>=1.10.0
+  Using cached pydantic-2.4.2-py3-none-any.whl (395 kB)
+Collecting pluggy>=1.0
+  Using cached pluggy-1.3.0-py3-none-any.whl (18 kB)
+Collecting apache-airflow-providers-sqlite
+  Using cached apache_airflow_providers_sqlite-3.5.0-py3-none-any.whl (13 kB)
+Collecting google-re2>=1.0
+  Using cached google_re2-1.1-3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (511 kB)
+Collecting lockfile>=0.12.2
+  Using cached lockfile-0.12.2-py2.py3-none-any.whl (13 kB)
+Collecting tenacity!=8.2.0,>=6.2.0
+  Using cached tenacity-8.2.3-py3-none-any.whl (24 kB)
+Collecting asgiref
+  Using cached asgiref-3.7.2-py3-none-any.whl (24 kB)
+Collecting blinker
+  Using cached blinker-1.6.3-py3-none-any.whl (13 kB)
+Collecting flask-wtf>=0.15
+  Using cached flask_wtf-1.2.1-py3-none-any.whl (12 kB)
+Collecting jinja2>=3.0.0
+  Using cached Jinja2-3.1.2-py3-none-any.whl (133 kB)
+Collecting linkify-it-py>=2.0.0
+  Using cached linkify_it_py-2.0.2-py3-none-any.whl (19 kB)
+Collecting werkzeug>=2.0
+  Using cached Werkzeug-2.2.3-py3-none-any.whl (233 kB)
+Collecting colorlog<5.0,>=4.0.2
+  Using cached colorlog-4.8.0-py2.py3-none-any.whl (10 kB)
+Collecting apache-airflow-providers-http
+  Using cached apache_airflow_providers_http-4.6.0-py3-none-any.whl (24 kB)
+Collecting flask<2.3,>=2.2
+  Using cached Flask-2.2.5-py3-none-any.whl (101 kB)
+Collecting mdit-py-plugins>=0.3.0
+  Using cached mdit_py_plugins-0.4.0-py3-none-any.whl (54 kB)
+Requirement already satisfied: rfc3339-validator>=0.1.4 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from apache-airflow[celery]==2.7.3) (0.1.4)
+Collecting sqlalchemy<2.0,>=1.4.28
+  Using cached SQLAlchemy-1.4.50-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
+Collecting cryptography>=0.9.3
+  Using cached cryptography-41.0.5-cp37-abi3-manylinux_2_28_x86_64.whl (4.4 MB)
+Collecting httpx
+  Using cached httpx-0.23.3-py3-none-any.whl (71 kB)
+Collecting lazy-object-proxy
+  Using cached lazy_object_proxy-1.9.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (63 kB)
+Collecting opentelemetry-api>=1.15.0
+  Using cached opentelemetry_api-1.20.0-py3-none-any.whl (57 kB)
+Collecting setproctitle>=1.1.8
+  Using cached setproctitle-1.3.3-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (30 kB)
+Collecting flask-session>=0.4.0
+  Using cached flask_session-0.5.0-py3-none-any.whl (7.2 kB)
+Collecting typing-extensions>=4.0.0
+  Using cached typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+Collecting apache-airflow-providers-imap
+  Using cached apache_airflow_providers_imap-3.4.0-py3-none-any.whl (17 kB)
+Collecting pygments>=2.0.1
+  Using cached Pygments-2.16.1-py3-none-any.whl (1.2 MB)
+Collecting python-nvd3>=0.15.0
+  Using cached python_nvd3-0.15.0-py3-none-any.whl
+Collecting rich>=12.4.4
+  Using cached rich-13.6.0-py3-none-any.whl (239 kB)
+Collecting sqlalchemy-jsonfield>=1.0
+  Using cached SQLAlchemy_JSONField-1.0.1.post0-py3-none-any.whl (10 kB)
+Collecting markdown-it-py>=2.1.0
+  Using cached markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+Collecting marshmallow-oneofschema>=2.0.1
+  Using cached marshmallow_oneofschema-3.0.1-py2.py3-none-any.whl (5.8 kB)
+Collecting cattrs>=22.1.0
+  Using cached cattrs-23.1.2-py3-none-any.whl (50 kB)
+Collecting apache-airflow-providers-ftp
+  Using cached apache_airflow_providers_ftp-3.6.0-py3-none-any.whl (18 kB)
+Collecting pyjwt>=2.0.0
+  Using cached PyJWT-2.8.0-py3-none-any.whl (22 kB)
+Collecting dill>=0.2.2
+  Using cached dill-0.3.1.1-py3-none-any.whl
+Collecting pathspec>=0.9.0
+  Using cached pathspec-0.11.2-py3-none-any.whl (29 kB)
+Collecting psutil>=4.2.0
+  Using cached psutil-5.9.6-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (283 kB)
+Collecting alembic<2.0,>=1.6.3
+  Using cached alembic-1.12.1-py3-none-any.whl (226 kB)
+Requirement already satisfied: packaging>=14.0 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from apache-airflow[celery]==2.7.3) (23.2)
+Collecting croniter>=0.3.17
+  Using cached croniter-2.0.1-py2.py3-none-any.whl (19 kB)
+Collecting WTForms<3.1.0
+  Using cached WTForms-3.0.1-py3-none-any.whl (136 kB)
+Collecting markupsafe>=1.1.1
+  Using cached MarkupSafe-2.1.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
+Collecting flask-caching>=1.5.0
+  Using cached Flask_Caching-2.1.0-py3-none-any.whl (28 kB)
+Collecting apache-airflow-providers-celery
+  Using cached apache_airflow_providers_celery-3.4.1-py3-none-any.whl (32 kB)
+Collecting flower>=1.0.0
+  Using cached flower-2.0.1-py2.py3-none-any.whl (383 kB)
+Collecting celery!=5.3.2,!=5.3.3,<6,>=5.3.0
+  Using cached celery-5.3.4-py3-none-any.whl (421 kB)
+Collecting prison<1.0.0,>=0.2.1
+  Using cached prison-0.2.1-py2.py3-none-any.whl (5.8 kB)
+Collecting apispec[yaml]<7,>=6.0.0
+  Using cached apispec-6.3.0-py3-none-any.whl (29 kB)
+Collecting marshmallow-sqlalchemy<0.27.0,>=0.22.0
+  Using cached marshmallow_sqlalchemy-0.26.1-py2.py3-none-any.whl (15 kB)
+Collecting marshmallow<4,>=3.18.0
+  Using cached marshmallow-3.20.1-py3-none-any.whl (49 kB)
+Collecting colorama<1,>=0.3.9
+  Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting Flask-SQLAlchemy<3,>=2.4
+  Using cached Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl (17 kB)
+Collecting Flask-Limiter<4,>3
+  Using cached Flask_Limiter-3.5.0-py3-none-any.whl (28 kB)
+Collecting Flask-Babel<3,>=1
+  Using cached Flask_Babel-2.0.0-py3-none-any.whl (9.3 kB)
+Collecting sqlalchemy-utils<1,>=0.32.21
+  Using cached SQLAlchemy_Utils-0.41.1-py3-none-any.whl (92 kB)
+Collecting Flask-JWT-Extended<5.0.0,>=4.0.0
+  Using cached Flask_JWT_Extended-4.5.3-py2.py3-none-any.whl (22 kB)
+Collecting click<9,>=8
+  Using cached click-8.1.7-py3-none-any.whl (97 kB)
+Collecting email-validator<2,>=1.0.5
+  Using cached email_validator-1.3.1-py2.py3-none-any.whl (22 kB)
+Collecting Mako
+  Using cached Mako-1.2.4-py3-none-any.whl (78 kB)
+Collecting exceptiongroup
+  Using cached exceptiongroup-1.1.3-py3-none-any.whl (14 kB)
+Collecting click-didyoumean>=0.3.0
+  Using cached click_didyoumean-0.3.0-py3-none-any.whl (2.7 kB)
+Collecting click-repl>=0.2.0
+  Using cached click_repl-0.3.0-py3-none-any.whl (10 kB)
+Collecting billiard<5.0,>=4.1.0
+  Using cached billiard-4.1.0-py3-none-any.whl (86 kB)
+Collecting vine<6.0,>=5.0.0
+  Using cached vine-5.0.0-py2.py3-none-any.whl (9.4 kB)
+Collecting kombu<6.0,>=5.3.2
+  Using cached kombu-5.3.2-py3-none-any.whl (196 kB)
+Collecting tzdata>=2022.7
+  Using cached tzdata-2023.3-py2.py3-none-any.whl (341 kB)
+Collecting click-plugins>=1.1.1
+  Using cached click_plugins-1.1.1-py2.py3-none-any.whl (7.5 kB)
+Requirement already satisfied: requests<3,>=2.9.1 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from connexion[flask]<3.0,>=2.10.0->apache-airflow[celery]==2.7.3) (2.31.0)
+Collecting inflection<0.6,>=0.3.1
+  Using cached inflection-0.5.1-py2.py3-none-any.whl (9.5 kB)
+Collecting clickclick<21,>=1.2
+  Using cached clickclick-20.10.2-py2.py3-none-any.whl (7.4 kB)
+Requirement already satisfied: PyYAML<7,>=5.1 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from connexion[flask]<3.0,>=2.10.0->apache-airflow[celery]==2.7.3) (6.0.1)
+Requirement already satisfied: pytz>2021.1 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from croniter>=0.3.17->apache-airflow[celery]==2.7.3) (2023.3.post1)
+Requirement already satisfied: cffi>=1.12 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from cryptography>=0.9.3->apache-airflow[celery]==2.7.3) (1.16.0)
+Collecting wrapt<2,>=1.10
+  Using cached wrapt-1.15.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (78 kB)
+Collecting cachelib<0.10.0,>=0.9.0
+  Using cached cachelib-0.9.0-py3-none-any.whl (15 kB)
+Collecting humanize
+  Using cached humanize-4.8.0-py3-none-any.whl (117 kB)
+Collecting prometheus-client>=0.8.0
+  Using cached prometheus_client-0.18.0-py3-none-any.whl (61 kB)
+Collecting tornado<7.0.0,>=5.0.0
+  Using cached tornado-6.3.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (427 kB)
+Collecting referencing>=0.28.4
+  Using cached referencing-0.30.2-py3-none-any.whl (25 kB)
+Collecting rpds-py>=0.7.1
+  Using cached rpds_py-0.10.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+Collecting jsonschema-specifications>=2023.03.6
+  Using cached jsonschema_specifications-2023.7.1-py3-none-any.whl (17 kB)
+Collecting uc-micro-py
+  Using cached uc_micro_py-1.0.2-py3-none-any.whl (6.2 kB)
+Collecting mdurl~=0.1
+  Using cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Collecting importlib-metadata<7.0,>=6.0
+  Using cached importlib_metadata-6.8.0-py3-none-any.whl (22 kB)
+Collecting pytzdata>=2020.1
+  Using cached pytzdata-2020.1-py2.py3-none-any.whl (489 kB)
+Collecting pydantic-core==2.10.1
+  Using cached pydantic_core-2.10.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+Collecting annotated-types>=0.4.0
+  Using cached annotated_types-0.6.0-py3-none-any.whl (12 kB)
+Collecting docutils
+  Using cached docutils-0.20.1-py3-none-any.whl (572 kB)
+Collecting setuptools>=62.4.0
+  Using cached setuptools-69.0.3-py3-none-any.whl (819 kB)
+Requirement already satisfied: six>=1.5 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from python-dateutil>=2.3->apache-airflow[celery]==2.7.3) (1.16.0)
+Collecting text-unidecode>=1.3
+  Using cached text_unidecode-1.3-py2.py3-none-any.whl (78 kB)
+Collecting greenlet!=0.4.17
+  Using cached greenlet-3.0.1-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (613 kB)
+Collecting sqlparse>=0.4.2
+  Using cached sqlparse-0.4.4-py3-none-any.whl (41 kB)
+Collecting aiohttp
+  Using cached aiohttp-3.8.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.0 MB)
+Collecting requests-toolbelt
+  Using cached requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
+Collecting certifi
+  Using cached certifi-2023.7.22-py3-none-any.whl (158 kB)
+Collecting httpcore<0.17.0,>=0.15.0
+  Using cached httpcore-0.16.3-py3-none-any.whl (69 kB)
+Requirement already satisfied: sniffio in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from httpx->apache-airflow[celery]==2.7.3) (1.3.0)
+Collecting rfc3986[idna2008]<2,>=1.3
+  Using cached rfc3986-1.5.0-py2.py3-none-any.whl (31 kB)
+Collecting opentelemetry-exporter-otlp-proto-grpc==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_grpc-1.20.0-py3-none-any.whl (18 kB)
+Collecting opentelemetry-exporter-otlp-proto-http==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_http-1.20.0-py3-none-any.whl (16 kB)
+Collecting opentelemetry-exporter-otlp-proto-common==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_common-1.20.0-py3-none-any.whl (17 kB)
+Collecting googleapis-common-protos~=1.52
+  Using cached googleapis_common_protos-1.61.0-py2.py3-none-any.whl (230 kB)
+Collecting opentelemetry-proto==1.20.0
+  Using cached opentelemetry_proto-1.20.0-py3-none-any.whl (50 kB)
+Collecting grpcio<2.0.0,>=1.0.0
+  Using cached grpcio-1.59.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.3 MB)
+Collecting opentelemetry-sdk~=1.20.0
+  Using cached opentelemetry_sdk-1.20.0-py3-none-any.whl (103 kB)
+Collecting backoff<3.0.0,>=1.10.0
+  Using cached backoff-1.10.0-py2.py3-none-any.whl (31 kB)
+Collecting protobuf<5.0,>=3.19
+  Using cached protobuf-4.24.4-cp37-abi3-manylinux2014_x86_64.whl (311 kB)
+Requirement already satisfied: pycparser in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from cffi>=1.12->cryptography>=0.9.3->apache-airflow[celery]==2.7.3) (2.21)
+Collecting prompt-toolkit>=3.0.36
+  Using cached prompt_toolkit-3.0.39-py3-none-any.whl (385 kB)
+Collecting dnspython>=1.15.0
+  Using cached dnspython-2.4.2-py3-none-any.whl (300 kB)
+Collecting idna>=2.0.0
+  Using cached idna-3.4-py3-none-any.whl (61 kB)
+Collecting Babel>=2.3
+  Using cached Babel-2.13.1-py3-none-any.whl (10.1 MB)
+Collecting limits>=2.8
+  Using cached limits-3.6.0-py3-none-any.whl (42 kB)
+Collecting ordered-set<5,>4
+  Using cached ordered_set-4.1.0-py3-none-any.whl (7.6 kB)
+Collecting h11<0.15,>=0.13
+  Using cached h11-0.14.0-py3-none-any.whl (58 kB)
+Collecting anyio<5.0,>=3.0
+  Using cached anyio-4.0.0-py3-none-any.whl (83 kB)
+Collecting zipp>=0.5
+  Using cached zipp-3.17.0-py3-none-any.whl (7.4 kB)
+Collecting amqp<6.0.0,>=5.1.1
+  Using cached amqp-5.1.1-py3-none-any.whl (50 kB)
+Collecting urllib3<3,>=1.21.1
+  Using cached urllib3-1.26.18-py2.py3-none-any.whl (143 kB)
+Requirement already satisfied: charset-normalizer<4,>=2 in /home/ogs-digilife/venvs/venv_package_man/lib/python3.10/site-packages (from requests<3,>=2.9.1->connexion[flask]<3.0,>=2.10.0->apache-airflow[celery]==2.7.3) (3.3.2)
+Collecting aiosignal>=1.1.2
+  Using cached aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
+Collecting multidict<7.0,>=4.5
+  Using cached multidict-6.0.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (114 kB)
+Collecting async-timeout<5.0,>=4.0.0a3
+  Using cached async_timeout-4.0.3-py3-none-any.whl (5.7 kB)
+Collecting frozenlist>=1.1.1
+  Using cached frozenlist-1.4.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (225 kB)
+Collecting yarl<2.0,>=1.0
+  Using cached yarl-1.9.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (268 kB)
+Collecting importlib-resources>=1.3
+  Using cached importlib_resources-6.1.0-py3-none-any.whl (33 kB)
+Collecting opentelemetry-semantic-conventions==0.41b0
+  Using cached opentelemetry_semantic_conventions-0.41b0-py3-none-any.whl (26 kB)
+Collecting wcwidth
+  Using cached wcwidth-0.2.9-py2.py3-none-any.whl (102 kB)
+Installing collected packages: wcwidth, unicodecsv, text-unidecode, rfc3986, lockfile, cron-descriptor, colorlog, zipp, wrapt, vine, urllib3, uc-micro-py, tzdata, typing-extensions, tornado, termcolor, tenacity, tabulate, sqlparse, setuptools, setproctitle, rpds-py, pytzdata, python-slugify, pyjwt, pygments, psutil, protobuf, prompt-toolkit, prometheus-client, prison, pluggy, pathspec, ordered-set, opentelemetry-semantic-conventions, multidict, mdurl, marshmallow, markupsafe, markdown, lazy-object-proxy, itsdangerous, inflection, importlib-resources, idna, humanize, h11, gunicorn, grpcio, greenlet, graphviz, google-re2, frozenlist, exceptiongroup, docutils, dnspython, dill, configupdater, colorama, click, certifi, cachelib, blinker, billiard, backoff, Babel, attrs, async-timeout, argcomplete, apispec, annotated-types, yarl, WTForms, werkzeug, sqlalchemy, referencing, python-daemon, pydantic-core, pendulum, opentelemetry-proto, marshmallow-oneofschema, markdown-it-py, Mako, linkify-it-py, jinja2, importlib-metadata, googleapis-common-protos, email-validator, deprecated, cryptography, croniter, clickclick, click-repl, click-plugins, click-didyoumean, cattrs, asgiref, anyio, amqp, aiosignal, sqlalchemy-utils, sqlalchemy-jsonfield, rich, requests-toolbelt, python-nvd3, pydantic, opentelemetry-exporter-otlp-proto-common, opentelemetry-api, mdit-py-plugins, marshmallow-sqlalchemy, limits, kombu, jsonschema-specifications, httpcore, flask, alembic, aiohttp, rich-argparse, opentelemetry-sdk, jsonschema, httpx, flask-wtf, Flask-SQLAlchemy, flask-session, flask-login, Flask-Limiter, Flask-JWT-Extended, flask-caching, Flask-Babel, celery, opentelemetry-exporter-otlp-proto-http, opentelemetry-exporter-otlp-proto-grpc, flower, flask-appbuilder, connexion, opentelemetry-exporter-otlp, apache-airflow-providers-imap, apache-airflow-providers-http, apache-airflow-providers-ftp, apache-airflow-providers-common-sql, apache-airflow-providers-sqlite, apache-airflow, apache-airflow-providers-celery
+  Attempting uninstall: wcwidth
+    Found existing installation: wcwidth 0.2.13
+    Uninstalling wcwidth-0.2.13:
+      Successfully uninstalled wcwidth-0.2.13
+  Attempting uninstall: urllib3
+    Found existing installation: urllib3 2.1.0
+    Uninstalling urllib3-2.1.0:
+      Successfully uninstalled urllib3-2.1.0
+  Attempting uninstall: tzdata
+    Found existing installation: tzdata 2023.4
+    Uninstalling tzdata-2023.4:
+      Successfully uninstalled tzdata-2023.4
+  Attempting uninstall: typing-extensions
+    Found existing installation: typing_extensions 4.9.0
+    Uninstalling typing_extensions-4.9.0:
+      Successfully uninstalled typing_extensions-4.9.0
+  Attempting uninstall: tornado
+    Found existing installation: tornado 6.4
+    Uninstalling tornado-6.4:
+      Successfully uninstalled tornado-6.4
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 59.6.0
+    Uninstalling setuptools-59.6.0:
+      Successfully uninstalled setuptools-59.6.0
+  Attempting uninstall: rpds-py
+    Found existing installation: rpds-py 0.17.1
+    Uninstalling rpds-py-0.17.1:
+      Successfully uninstalled rpds-py-0.17.1
+  Attempting uninstall: pygments
+    Found existing installation: Pygments 2.17.2
+    Uninstalling Pygments-2.17.2:
+      Successfully uninstalled Pygments-2.17.2
+  Attempting uninstall: psutil
+    Found existing installation: psutil 5.9.8
+    Uninstalling psutil-5.9.8:
+      Successfully uninstalled psutil-5.9.8
+  Attempting uninstall: prompt-toolkit
+    Found existing installation: prompt-toolkit 3.0.43
+    Uninstalling prompt-toolkit-3.0.43:
+      Successfully uninstalled prompt-toolkit-3.0.43
+  Attempting uninstall: prometheus-client
+    Found existing installation: prometheus-client 0.19.0
+    Uninstalling prometheus-client-0.19.0:
+      Successfully uninstalled prometheus-client-0.19.0
+  Attempting uninstall: markupsafe
+    Found existing installation: MarkupSafe 2.1.4
+    Uninstalling MarkupSafe-2.1.4:
+      Successfully uninstalled MarkupSafe-2.1.4
+  Attempting uninstall: idna
+    Found existing installation: idna 3.6
+    Uninstalling idna-3.6:
+      Successfully uninstalled idna-3.6
+  Attempting uninstall: exceptiongroup
+    Found existing installation: exceptiongroup 1.2.0
+    Uninstalling exceptiongroup-1.2.0:
+      Successfully uninstalled exceptiongroup-1.2.0
+  Attempting uninstall: certifi
+    Found existing installation: certifi 2023.11.17
+    Uninstalling certifi-2023.11.17:
+      Successfully uninstalled certifi-2023.11.17
+  Attempting uninstall: Babel
+    Found existing installation: Babel 2.14.0
+    Uninstalling Babel-2.14.0:
+      Successfully uninstalled Babel-2.14.0
+  Attempting uninstall: attrs
+    Found existing installation: attrs 23.2.0
+    Uninstalling attrs-23.2.0:
+      Successfully uninstalled attrs-23.2.0
+  Attempting uninstall: referencing
+    Found existing installation: referencing 0.32.1
+    Uninstalling referencing-0.32.1:
+      Successfully uninstalled referencing-0.32.1
+  Attempting uninstall: jinja2
+    Found existing installation: Jinja2 3.1.3
+    Uninstalling Jinja2-3.1.3:
+      Successfully uninstalled Jinja2-3.1.3
+  Attempting uninstall: cryptography
+    Found existing installation: cryptography 42.0.1
+    Uninstalling cryptography-42.0.1:
+      Successfully uninstalled cryptography-42.0.1
+  Attempting uninstall: anyio
+    Found existing installation: anyio 4.2.0
+    Uninstalling anyio-4.2.0:
+      Successfully uninstalled anyio-4.2.0
+  Attempting uninstall: jsonschema-specifications
+    Found existing installation: jsonschema-specifications 2023.12.1
+    Uninstalling jsonschema-specifications-2023.12.1:
+      Successfully uninstalled jsonschema-specifications-2023.12.1
+  Attempting uninstall: jsonschema
+    Found existing installation: jsonschema 4.21.1
+    Uninstalling jsonschema-4.21.1:
+      Successfully uninstalled jsonschema-4.21.1
+Successfully installed Babel-2.13.1 Flask-Babel-2.0.0 Flask-JWT-Extended-4.5.3 Flask-Limiter-3.5.0 Flask-SQLAlchemy-2.5.1 Mako-1.2.4 WTForms-3.0.1 aiohttp-3.8.6 aiosignal-1.3.1 alembic-1.12.1 amqp-5.1.1 annotated-types-0.6.0 anyio-4.0.0 apache-airflow-2.7.3 apache-airflow-providers-celery-3.4.1 apache-airflow-providers-common-sql-1.8.0 apache-airflow-providers-ftp-3.6.0 apache-airflow-providers-http-4.6.0 apache-airflow-providers-imap-3.4.0 apache-airflow-providers-sqlite-3.5.0 apispec-6.3.0 argcomplete-3.1.3 asgiref-3.7.2 async-timeout-4.0.3 attrs-23.1.0 backoff-1.10.0 billiard-4.1.0 blinker-1.6.3 cachelib-0.9.0 cattrs-23.1.2 celery-5.3.4 certifi-2023.7.22 click-8.1.7 click-didyoumean-0.3.0 click-plugins-1.1.1 click-repl-0.3.0 clickclick-20.10.2 colorama-0.4.6 colorlog-4.8.0 configupdater-3.1.1 connexion-2.14.2 cron-descriptor-1.4.0 croniter-2.0.1 cryptography-41.0.5 deprecated-1.2.14 dill-0.3.1.1 dnspython-2.4.2 docutils-0.20.1 email-validator-1.3.1 exceptiongroup-1.1.3 flask-2.2.5 flask-appbuilder-4.3.6 flask-caching-2.1.0 flask-login-0.6.3 flask-session-0.5.0 flask-wtf-1.2.1 flower-2.0.1 frozenlist-1.4.0 google-re2-1.1 googleapis-common-protos-1.61.0 graphviz-0.20.1 greenlet-3.0.1 grpcio-1.59.2 gunicorn-21.2.0 h11-0.14.0 httpcore-0.16.3 httpx-0.23.3 humanize-4.8.0 idna-3.4 importlib-metadata-6.8.0 importlib-resources-6.1.0 inflection-0.5.1 itsdangerous-2.1.2 jinja2-3.1.2 jsonschema-4.19.2 jsonschema-specifications-2023.7.1 kombu-5.3.2 lazy-object-proxy-1.9.0 limits-3.6.0 linkify-it-py-2.0.2 lockfile-0.12.2 markdown-3.5.1 markdown-it-py-3.0.0 markupsafe-2.1.3 marshmallow-3.20.1 marshmallow-oneofschema-3.0.1 marshmallow-sqlalchemy-0.26.1 mdit-py-plugins-0.4.0 mdurl-0.1.2 multidict-6.0.4 opentelemetry-api-1.20.0 opentelemetry-exporter-otlp-1.20.0 opentelemetry-exporter-otlp-proto-common-1.20.0 opentelemetry-exporter-otlp-proto-grpc-1.20.0 opentelemetry-exporter-otlp-proto-http-1.20.0 opentelemetry-proto-1.20.0 opentelemetry-sdk-1.20.0 opentelemetry-semantic-conventions-0.41b0 ordered-set-4.1.0 pathspec-0.11.2 pendulum-2.1.2 pluggy-1.3.0 prison-0.2.1 prometheus-client-0.18.0 prompt-toolkit-3.0.39 protobuf-4.24.4 psutil-5.9.6 pydantic-2.4.2 pydantic-core-2.10.1 pygments-2.16.1 pyjwt-2.8.0 python-daemon-3.0.1 python-nvd3-0.15.0 python-slugify-8.0.1 pytzdata-2020.1 referencing-0.30.2 requests-toolbelt-1.0.0 rfc3986-1.5.0 rich-13.6.0 rich-argparse-1.4.0 rpds-py-0.10.6 setproctitle-1.3.3 setuptools-69.0.3 sqlalchemy-1.4.50 sqlalchemy-jsonfield-1.0.1.post0 sqlalchemy-utils-0.41.1 sqlparse-0.4.4 tabulate-0.9.0 tenacity-8.2.3 termcolor-2.3.0 text-unidecode-1.3 tornado-6.3.3 typing-extensions-4.8.0 tzdata-2023.3 uc-micro-py-1.0.2 unicodecsv-0.14.1 urllib3-1.26.18 vine-5.0.0 wcwidth-0.2.9 werkzeug-2.2.3 wrapt-1.15.0 yarl-1.9.2 zipp-3.17.0
+
+
+
+
+
+
+
+#### 誤って、トップにinstallした
+install airflow to venv venv_package_man
+  WARNING: The script tabulate is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script sqlformat is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script slugify is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script pygmentize is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script markdown_py is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script docutils is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script normalizer is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script pybabel is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script markdown-it is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script mako-render is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script gunicorn is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script email_validator is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script nvd3 is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script flask is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script alembic is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script jsonschema is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script httpx is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script celery is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script fabmanager is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script connexion is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script airflow is installed in '/home/ogs-digilife/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Defaulting to user installation because normal site-packages is not writeable
+Collecting apache-airflow[celery]==2.7.3
+  Using cached apache_airflow-2.7.3-py3-none-any.whl (12.9 MB)
+Collecting colorlog<5.0,>=4.0.2
+  Using cached colorlog-4.8.0-py2.py3-none-any.whl (10 kB)
+Collecting markdown-it-py>=2.1.0
+  Using cached markdown_it_py-3.0.0-py3-none-any.whl (87 kB)
+Collecting pendulum<3.0,>=2.0
+  Using cached pendulum-2.1.2-cp310-cp310-manylinux_2_35_x86_64.whl
+Collecting pygments>=2.0.1
+  Using cached Pygments-2.16.1-py3-none-any.whl (1.2 MB)
+Collecting apache-airflow-providers-http
+  Using cached apache_airflow_providers_http-4.6.0-py3-none-any.whl (24 kB)
+Collecting pyjwt>=2.0.0
+  Using cached PyJWT-2.8.0-py3-none-any.whl (22 kB)
+Collecting pluggy>=1.0
+  Using cached pluggy-1.3.0-py3-none-any.whl (18 kB)
+Collecting flask<2.3,>=2.2
+  Using cached Flask-2.2.5-py3-none-any.whl (101 kB)
+Collecting dill>=0.2.2
+  Using cached dill-0.3.1.1.tar.gz (151 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting graphviz>=0.12
+  Using cached graphviz-0.20.1-py3-none-any.whl (47 kB)
+Collecting connexion[flask]<3.0,>=2.10.0
+  Using cached connexion-2.14.2-py2.py3-none-any.whl (95 kB)
+Collecting linkify-it-py>=2.0.0
+  Using cached linkify_it_py-2.0.2-py3-none-any.whl (19 kB)
+Collecting WTForms<3.1.0
+  Using cached WTForms-3.0.1-py3-none-any.whl (136 kB)
+Collecting jinja2>=3.0.0
+  Using cached Jinja2-3.1.2-py3-none-any.whl (133 kB)
+Collecting gunicorn>=20.1.0
+  Using cached gunicorn-21.2.0-py3-none-any.whl (80 kB)
+Collecting python-nvd3>=0.15.0
+  Using cached python-nvd3-0.15.0.tar.gz (31 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting jsonschema>=4.18.0
+  Using cached jsonschema-4.19.2-py3-none-any.whl (83 kB)
+Collecting rfc3339-validator>=0.1.4
+  Using cached rfc3339_validator-0.1.4-py2.py3-none-any.whl (3.5 kB)
+Collecting flask-caching>=1.5.0
+  Using cached Flask_Caching-2.1.0-py3-none-any.whl (28 kB)
+Collecting configupdater>=3.1.1
+  Using cached ConfigUpdater-3.1.1-py2.py3-none-any.whl (34 kB)
+Collecting packaging>=14.0
+  Using cached packaging-23.2-py3-none-any.whl (53 kB)
+Collecting blinker
+  Using cached blinker-1.6.3-py3-none-any.whl (13 kB)
+Collecting setproctitle>=1.1.8
+  Using cached setproctitle-1.3.3-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (30 kB)
+Collecting asgiref
+  Using cached asgiref-3.7.2-py3-none-any.whl (24 kB)
+Collecting python-slugify>=5.0
+  Using cached python_slugify-8.0.1-py2.py3-none-any.whl (9.7 kB)
+Collecting alembic<2.0,>=1.6.3
+  Using cached alembic-1.12.1-py3-none-any.whl (226 kB)
+Collecting itsdangerous>=2.0
+  Using cached itsdangerous-2.1.2-py3-none-any.whl (15 kB)
+Collecting flask-wtf>=0.15
+  Using cached flask_wtf-1.2.1-py3-none-any.whl (12 kB)
+Collecting python-daemon>=3.0.0
+  Using cached python_daemon-3.0.1-py3-none-any.whl (31 kB)
+Collecting tabulate>=0.7.5
+  Using cached tabulate-0.9.0-py3-none-any.whl (35 kB)
+Collecting cattrs>=22.1.0
+  Using cached cattrs-23.1.2-py3-none-any.whl (50 kB)
+Collecting opentelemetry-exporter-otlp
+  Using cached opentelemetry_exporter_otlp-1.20.0-py3-none-any.whl (7.0 kB)
+Collecting typing-extensions>=4.0.0
+  Using cached typing_extensions-4.8.0-py3-none-any.whl (31 kB)
+Collecting pathspec>=0.9.0
+  Using cached pathspec-0.11.2-py3-none-any.whl (29 kB)
+Collecting psutil>=4.2.0
+  Using cached psutil-5.9.6-cp36-abi3-manylinux_2_12_x86_64.manylinux2010_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (283 kB)
+Collecting marshmallow-oneofschema>=2.0.1
+  Using cached marshmallow_oneofschema-3.0.1-py2.py3-none-any.whl (5.8 kB)
+Collecting httpx
+  Using cached httpx-0.23.3-py3-none-any.whl (71 kB)
+Collecting lockfile>=0.12.2
+  Using cached lockfile-0.12.2-py2.py3-none-any.whl (13 kB)
+Collecting rich-argparse>=1.0.0
+  Using cached rich_argparse-1.4.0-py3-none-any.whl (19 kB)
+Collecting flask-login>=0.6.2
+  Using cached Flask_Login-0.6.3-py3-none-any.whl (17 kB)
+Collecting argcomplete>=1.10
+  Using cached argcomplete-3.1.3-py3-none-any.whl (41 kB)
+Collecting google-re2>=1.0
+  Using cached google_re2-1.1-3-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (511 kB)
+Collecting werkzeug>=2.0
+  Using cached Werkzeug-2.2.3-py3-none-any.whl (233 kB)
+Collecting opentelemetry-api>=1.15.0
+  Using cached opentelemetry_api-1.20.0-py3-none-any.whl (57 kB)
+Collecting apache-airflow-providers-common-sql
+  Using cached apache_airflow_providers_common_sql-1.8.0-py3-none-any.whl (31 kB)
+Collecting python-dateutil>=2.3
+  Using cached python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+Collecting markdown>=3.0
+  Using cached Markdown-3.5.1-py3-none-any.whl (102 kB)
+Collecting markupsafe>=1.1.1
+  Using cached MarkupSafe-2.1.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
+Collecting mdit-py-plugins>=0.3.0
+  Using cached mdit_py_plugins-0.4.0-py3-none-any.whl (54 kB)
+Collecting attrs>=22.1.0
+  Using cached attrs-23.1.0-py3-none-any.whl (61 kB)
+Collecting flask-appbuilder==4.3.6
+  Using cached Flask_AppBuilder-4.3.6-py3-none-any.whl (1.7 MB)
+Collecting deprecated>=1.2.13
+  Using cached Deprecated-1.2.14-py2.py3-none-any.whl (9.6 kB)
+Collecting sqlalchemy<2.0,>=1.4.28
+  Using cached SQLAlchemy-1.4.50-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
+Collecting lazy-object-proxy
+  Using cached lazy_object_proxy-1.9.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (63 kB)
+Collecting tenacity!=8.2.0,>=6.2.0
+  Using cached tenacity-8.2.3-py3-none-any.whl (24 kB)
+Collecting apache-airflow-providers-imap
+  Using cached apache_airflow_providers_imap-3.4.0-py3-none-any.whl (17 kB)
+Collecting cryptography>=0.9.3
+  Using cached cryptography-41.0.5-cp37-abi3-manylinux_2_28_x86_64.whl (4.4 MB)
+Collecting apache-airflow-providers-ftp
+  Using cached apache_airflow_providers_ftp-3.6.0-py3-none-any.whl (18 kB)
+Collecting apache-airflow-providers-sqlite
+  Using cached apache_airflow_providers_sqlite-3.5.0-py3-none-any.whl (13 kB)
+Collecting flask-session>=0.4.0
+  Using cached flask_session-0.5.0-py3-none-any.whl (7.2 kB)
+Collecting rich>=12.4.4
+  Using cached rich-13.6.0-py3-none-any.whl (239 kB)
+Collecting pydantic>=1.10.0
+  Using cached pydantic-2.4.2-py3-none-any.whl (395 kB)
+Collecting termcolor>=1.1.0
+  Using cached termcolor-2.3.0-py3-none-any.whl (6.9 kB)
+Collecting cron-descriptor>=1.2.24
+  Using cached cron_descriptor-1.4.0.tar.gz (29 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting sqlalchemy-jsonfield>=1.0
+  Using cached SQLAlchemy_JSONField-1.0.1.post0-py3-none-any.whl (10 kB)
+Collecting croniter>=0.3.17
+  Using cached croniter-2.0.1-py2.py3-none-any.whl (19 kB)
+Collecting unicodecsv>=0.14.1
+  Using cached unicodecsv-0.14.1.tar.gz (10 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting apache-airflow-providers-celery
+  Using cached apache_airflow_providers_celery-3.4.1-py3-none-any.whl (32 kB)
+Collecting flower>=1.0.0
+  Using cached flower-2.0.1-py2.py3-none-any.whl (383 kB)
+Collecting celery!=5.3.2,!=5.3.3,<6,>=5.3.0
+  Using cached celery-5.3.4-py3-none-any.whl (421 kB)
+Collecting marshmallow-sqlalchemy<0.27.0,>=0.22.0
+  Using cached marshmallow_sqlalchemy-0.26.1-py2.py3-none-any.whl (15 kB)
+Collecting colorama<1,>=0.3.9
+  Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting apispec[yaml]<7,>=6.0.0
+  Using cached apispec-6.3.0-py3-none-any.whl (29 kB)
+Collecting Flask-SQLAlchemy<3,>=2.4
+  Using cached Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl (17 kB)
+Collecting Flask-JWT-Extended<5.0.0,>=4.0.0
+  Using cached Flask_JWT_Extended-4.5.3-py2.py3-none-any.whl (22 kB)
+Collecting Flask-Babel<3,>=1
+  Using cached Flask_Babel-2.0.0-py3-none-any.whl (9.3 kB)
+Collecting email-validator<2,>=1.0.5
+  Using cached email_validator-1.3.1-py2.py3-none-any.whl (22 kB)
+Collecting marshmallow<4,>=3.18.0
+  Using cached marshmallow-3.20.1-py3-none-any.whl (49 kB)
+Collecting prison<1.0.0,>=0.2.1
+  Using cached prison-0.2.1-py2.py3-none-any.whl (5.8 kB)
+Collecting sqlalchemy-utils<1,>=0.32.21
+  Using cached SQLAlchemy_Utils-0.41.1-py3-none-any.whl (92 kB)
+Collecting click<9,>=8
+  Using cached click-8.1.7-py3-none-any.whl (97 kB)
+Collecting Flask-Limiter<4,>3
+  Using cached Flask_Limiter-3.5.0-py3-none-any.whl (28 kB)
+Collecting Mako
+  Using cached Mako-1.2.4-py3-none-any.whl (78 kB)
+Collecting exceptiongroup
+  Using cached exceptiongroup-1.1.3-py3-none-any.whl (14 kB)
+Collecting tzdata>=2022.7
+  Using cached tzdata-2023.3-py2.py3-none-any.whl (341 kB)
+Collecting click-repl>=0.2.0
+  Using cached click_repl-0.3.0-py3-none-any.whl (10 kB)
+Collecting billiard<5.0,>=4.1.0
+  Using cached billiard-4.1.0-py3-none-any.whl (86 kB)
+Collecting kombu<6.0,>=5.3.2
+  Using cached kombu-5.3.2-py3-none-any.whl (196 kB)
+Collecting vine<6.0,>=5.0.0
+  Using cached vine-5.0.0-py2.py3-none-any.whl (9.4 kB)
+Collecting click-didyoumean>=0.3.0
+  Using cached click_didyoumean-0.3.0-py3-none-any.whl (2.7 kB)
+Collecting click-plugins>=1.1.1
+  Using cached click_plugins-1.1.1-py2.py3-none-any.whl (7.5 kB)
+Collecting clickclick<21,>=1.2
+  Using cached clickclick-20.10.2-py2.py3-none-any.whl (7.4 kB)
+Collecting inflection<0.6,>=0.3.1
+  Using cached inflection-0.5.1-py2.py3-none-any.whl (9.5 kB)
+Collecting PyYAML<7,>=5.1
+  Using cached PyYAML-6.0.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (705 kB)
+Collecting requests<3,>=2.9.1
+  Using cached requests-2.31.0-py3-none-any.whl (62 kB)
+Collecting pytz>2021.1
+  Using cached pytz-2023.3.post1-py2.py3-none-any.whl (502 kB)
+Collecting cffi>=1.12
+  Using cached cffi-1.16.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (443 kB)
+Collecting wrapt<2,>=1.10
+  Using cached wrapt-1.15.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (78 kB)
+Collecting cachelib<0.10.0,>=0.9.0
+  Using cached cachelib-0.9.0-py3-none-any.whl (15 kB)
+Collecting tornado<7.0.0,>=5.0.0
+  Using cached tornado-6.3.3-cp38-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (427 kB)
+Collecting prometheus-client>=0.8.0
+  Using cached prometheus_client-0.18.0-py3-none-any.whl (61 kB)
+Collecting humanize
+  Using cached humanize-4.8.0-py3-none-any.whl (117 kB)
+Collecting rpds-py>=0.7.1
+  Using cached rpds_py-0.10.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+Collecting jsonschema-specifications>=2023.03.6
+  Using cached jsonschema_specifications-2023.7.1-py3-none-any.whl (17 kB)
+Collecting referencing>=0.28.4
+  Using cached referencing-0.30.2-py3-none-any.whl (25 kB)
+Collecting uc-micro-py
+  Using cached uc_micro_py-1.0.2-py3-none-any.whl (6.2 kB)
+Collecting mdurl~=0.1
+  Using cached mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Collecting importlib-metadata<7.0,>=6.0
+  Using cached importlib_metadata-6.8.0-py3-none-any.whl (22 kB)
+Collecting pytzdata>=2020.1
+  Using cached pytzdata-2020.1-py2.py3-none-any.whl (489 kB)
+Collecting pydantic-core==2.10.1
+  Using cached pydantic_core-2.10.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+Collecting annotated-types>=0.4.0
+  Using cached annotated_types-0.6.0-py3-none-any.whl (12 kB)
+Collecting setuptools>=62.4.0
+  Downloading setuptools-69.0.3-py3-none-any.whl (819 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 819.5/819.5 KB 8.4 MB/s eta 0:00:00
+Collecting docutils
+  Using cached docutils-0.20.1-py3-none-any.whl (572 kB)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.3->apache-airflow[celery]==2.7.3) (1.16.0)
+Collecting text-unidecode>=1.3
+  Using cached text_unidecode-1.3-py2.py3-none-any.whl (78 kB)
+Collecting greenlet!=0.4.17
+  Using cached greenlet-3.0.1-cp310-cp310-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (613 kB)
+Collecting sqlparse>=0.4.2
+  Using cached sqlparse-0.4.4-py3-none-any.whl (41 kB)
+Collecting requests-toolbelt
+  Using cached requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
+Collecting aiohttp
+  Using cached aiohttp-3.8.6-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.0 MB)
+Collecting sniffio
+  Using cached sniffio-1.3.0-py3-none-any.whl (10 kB)
+Collecting rfc3986[idna2008]<2,>=1.3
+  Using cached rfc3986-1.5.0-py2.py3-none-any.whl (31 kB)
+Collecting httpcore<0.17.0,>=0.15.0
+  Using cached httpcore-0.16.3-py3-none-any.whl (69 kB)
+Collecting certifi
+  Using cached certifi-2023.7.22-py3-none-any.whl (158 kB)
+Collecting opentelemetry-exporter-otlp-proto-grpc==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_grpc-1.20.0-py3-none-any.whl (18 kB)
+Collecting opentelemetry-exporter-otlp-proto-http==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_http-1.20.0-py3-none-any.whl (16 kB)
+Collecting grpcio<2.0.0,>=1.0.0
+  Using cached grpcio-1.59.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (5.3 MB)
+Collecting opentelemetry-proto==1.20.0
+  Using cached opentelemetry_proto-1.20.0-py3-none-any.whl (50 kB)
+Collecting opentelemetry-sdk~=1.20.0
+  Using cached opentelemetry_sdk-1.20.0-py3-none-any.whl (103 kB)
+Collecting opentelemetry-exporter-otlp-proto-common==1.20.0
+  Using cached opentelemetry_exporter_otlp_proto_common-1.20.0-py3-none-any.whl (17 kB)
+Collecting googleapis-common-protos~=1.52
+  Using cached googleapis_common_protos-1.61.0-py2.py3-none-any.whl (230 kB)
+Collecting backoff<3.0.0,>=1.10.0
+  Using cached backoff-1.10.0-py2.py3-none-any.whl (31 kB)
+Collecting protobuf<5.0,>=3.19
+  Using cached protobuf-4.24.4-cp37-abi3-manylinux2014_x86_64.whl (311 kB)
+Collecting pycparser
+  Using cached pycparser-2.21-py2.py3-none-any.whl (118 kB)
+Collecting prompt-toolkit>=3.0.36
+  Using cached prompt_toolkit-3.0.39-py3-none-any.whl (385 kB)
+Collecting idna>=2.0.0
+  Using cached idna-3.4-py3-none-any.whl (61 kB)
+Collecting dnspython>=1.15.0
+  Using cached dnspython-2.4.2-py3-none-any.whl (300 kB)
+Collecting Babel>=2.3
+  Using cached Babel-2.13.1-py3-none-any.whl (10.1 MB)
+Collecting limits>=2.8
+  Using cached limits-3.6.0-py3-none-any.whl (42 kB)
+Collecting ordered-set<5,>4
+  Using cached ordered_set-4.1.0-py3-none-any.whl (7.6 kB)
+Collecting h11<0.15,>=0.13
+  Using cached h11-0.14.0-py3-none-any.whl (58 kB)
+Collecting anyio<5.0,>=3.0
+  Using cached anyio-4.0.0-py3-none-any.whl (83 kB)
+Collecting zipp>=0.5
+  Using cached zipp-3.17.0-py3-none-any.whl (7.4 kB)
+Collecting amqp<6.0.0,>=5.1.1
+  Using cached amqp-5.1.1-py3-none-any.whl (50 kB)
+Collecting charset-normalizer<4,>=2
+  Using cached charset_normalizer-3.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (142 kB)
+Collecting urllib3<3,>=1.21.1
+  Using cached urllib3-1.26.18-py2.py3-none-any.whl (143 kB)
+Collecting aiosignal>=1.1.2
+  Using cached aiosignal-1.3.1-py3-none-any.whl (7.6 kB)
+Collecting async-timeout<5.0,>=4.0.0a3
+  Using cached async_timeout-4.0.3-py3-none-any.whl (5.7 kB)
+Collecting frozenlist>=1.1.1
+  Using cached frozenlist-1.4.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (225 kB)
+Collecting multidict<7.0,>=4.5
+  Using cached multidict-6.0.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (114 kB)
+Collecting yarl<2.0,>=1.0
+  Using cached yarl-1.9.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (268 kB)
+Collecting importlib-resources>=1.3
+  Using cached importlib_resources-6.1.0-py3-none-any.whl (33 kB)
+Collecting opentelemetry-semantic-conventions==0.41b0
+  Using cached opentelemetry_semantic_conventions-0.41b0-py3-none-any.whl (26 kB)
+Collecting wcwidth
+  Using cached wcwidth-0.2.9-py2.py3-none-any.whl (102 kB)
+Building wheels for collected packages: cron-descriptor, dill, python-nvd3, unicodecsv
+  Building wheel for cron-descriptor (setup.py): started
+  Building wheel for cron-descriptor (setup.py): finished with status 'done'
+  Created wheel for cron-descriptor: filename=cron_descriptor-1.4.0-py3-none-any.whl size=49856 sha256=da065897df8285c62b9dfc1df9d097f6ad439fc4b3dc2a244bdbd66380863e18
+  Stored in directory: /home/ogs-digilife/.cache/pip/wheels/98/ff/fb/d908f229155ad6b65c7a34e9d35774fd1f40579241c3a5f924
+  Building wheel for dill (setup.py): started
+  Building wheel for dill (setup.py): finished with status 'done'
+  Created wheel for dill: filename=dill-0.3.1.1-py3-none-any.whl size=78544 sha256=84d88a578800e843a46b5fe96d18c6b13081a6ad2c61b57a38dc6881a52bd292
+  Stored in directory: /home/ogs-digilife/.cache/pip/wheels/ea/e2/86/64980d90e297e7bf2ce588c2b96e818f5399c515c4bb8a7e4f
+  Building wheel for python-nvd3 (setup.py): started
+  Building wheel for python-nvd3 (setup.py): finished with status 'done'
+  Created wheel for python-nvd3: filename=python_nvd3-0.15.0-py3-none-any.whl size=38167 sha256=a9f2967e5caa71b56dbceb328baefa517fadb78145ed54d9790531be0e94e93f
+  Stored in directory: /home/ogs-digilife/.cache/pip/wheels/80/e7/4e/d99e473adde7dd21b9938d4d32bf823ca334e7979632d6a64c
+  Building wheel for unicodecsv (setup.py): started
+  Building wheel for unicodecsv (setup.py): finished with status 'done'
+  Created wheel for unicodecsv: filename=unicodecsv-0.14.1-py3-none-any.whl size=10768 sha256=df106b43cbfa81b27a83e102b19bcdbb90c50030daeae2ac53a67a6087c172e0
+  Stored in directory: /home/ogs-digilife/.cache/pip/wheels/9c/ea/66/8e45247b09052a933eb1a680b7c64802298faba58aac9b346b
+Successfully built cron-descriptor dill python-nvd3 unicodecsv
+Installing collected packages: wcwidth, unicodecsv, text-unidecode, rfc3986, pytz, lockfile, cron-descriptor, colorlog, zipp, wrapt, vine, urllib3, uc-micro-py, tzdata, typing-extensions, tornado, termcolor, tenacity, tabulate, sqlparse, sniffio, setuptools, setproctitle, rpds-py, rfc3339-validator, PyYAML, pytzdata, python-slugify, python-dateutil, pyjwt, pygments, pycparser, psutil, protobuf, prompt-toolkit, prometheus-client, prison, pluggy, pathspec, packaging, ordered-set, opentelemetry-semantic-conventions, multidict, mdurl, markupsafe, markdown, lazy-object-proxy, itsdangerous, inflection, importlib-resources, idna, humanize, h11, grpcio, greenlet, graphviz, google-re2, frozenlist, exceptiongroup, docutils, dnspython, dill, configupdater, colorama, click, charset-normalizer, certifi, cachelib, blinker, billiard, backoff, Babel, attrs, async-timeout, argcomplete, annotated-types, yarl, WTForms, werkzeug, sqlalchemy, requests, referencing, python-daemon, pydantic-core, pendulum, opentelemetry-proto, marshmallow, markdown-it-py, Mako, linkify-it-py, jinja2, importlib-metadata, gunicorn, googleapis-common-protos, email-validator, deprecated, croniter, clickclick, click-repl, click-plugins, click-didyoumean, cffi, cattrs, asgiref, apispec, anyio, amqp, aiosignal, sqlalchemy-utils, sqlalchemy-jsonfield, rich, requests-toolbelt, python-nvd3, pydantic, opentelemetry-exporter-otlp-proto-common, opentelemetry-api, mdit-py-plugins, marshmallow-sqlalchemy, marshmallow-oneofschema, limits, kombu, jsonschema-specifications, httpcore, flask, cryptography, alembic, aiohttp, rich-argparse, opentelemetry-sdk, jsonschema, httpx, flask-wtf, Flask-SQLAlchemy, flask-session, flask-login, Flask-Limiter, Flask-JWT-Extended, flask-caching, Flask-Babel, celery, opentelemetry-exporter-otlp-proto-http, opentelemetry-exporter-otlp-proto-grpc, flower, flask-appbuilder, connexion, opentelemetry-exporter-otlp, apache-airflow-providers-imap, apache-airflow-providers-http, apache-airflow-providers-ftp, apache-airflow-providers-common-sql, apache-airflow-providers-sqlite, apache-airflow, apache-airflow-providers-celery
+Successfully installed Babel-2.13.1 Flask-Babel-2.0.0 Flask-JWT-Extended-4.5.3 Flask-Limiter-3.5.0 Flask-SQLAlchemy-2.5.1 Mako-1.2.4 PyYAML-6.0.1 WTForms-3.0.1 aiohttp-3.8.6 aiosignal-1.3.1 alembic-1.12.1 amqp-5.1.1 annotated-types-0.6.0 anyio-4.0.0 apache-airflow-2.7.3 apache-airflow-providers-celery-3.4.1 apache-airflow-providers-common-sql-1.8.0 apache-airflow-providers-ftp-3.6.0 apache-airflow-providers-http-4.6.0 apache-airflow-providers-imap-3.4.0 apache-airflow-providers-sqlite-3.5.0 apispec-6.3.0 argcomplete-3.1.3 asgiref-3.7.2 async-timeout-4.0.3 attrs-23.1.0 backoff-1.10.0 billiard-4.1.0 blinker-1.6.3 cachelib-0.9.0 cattrs-23.1.2 celery-5.3.4 certifi-2023.7.22 cffi-1.16.0 charset-normalizer-3.3.2 click-8.1.7 click-didyoumean-0.3.0 click-plugins-1.1.1 click-repl-0.3.0 clickclick-20.10.2 colorama-0.4.6 colorlog-4.8.0 configupdater-3.1.1 connexion-2.14.2 cron-descriptor-1.4.0 croniter-2.0.1 cryptography-41.0.5 deprecated-1.2.14 dill-0.3.1.1 dnspython-2.4.2 docutils-0.20.1 email-validator-1.3.1 exceptiongroup-1.1.3 flask-2.2.5 flask-appbuilder-4.3.6 flask-caching-2.1.0 flask-login-0.6.3 flask-session-0.5.0 flask-wtf-1.2.1 flower-2.0.1 frozenlist-1.4.0 google-re2-1.1 googleapis-common-protos-1.61.0 graphviz-0.20.1 greenlet-3.0.1 grpcio-1.59.2 gunicorn-21.2.0 h11-0.14.0 httpcore-0.16.3 httpx-0.23.3 humanize-4.8.0 idna-3.4 importlib-metadata-6.8.0 importlib-resources-6.1.0 inflection-0.5.1 itsdangerous-2.1.2 jinja2-3.1.2 jsonschema-4.19.2 jsonschema-specifications-2023.7.1 kombu-5.3.2 lazy-object-proxy-1.9.0 limits-3.6.0 linkify-it-py-2.0.2 lockfile-0.12.2 markdown-3.5.1 markdown-it-py-3.0.0 markupsafe-2.1.3 marshmallow-3.20.1 marshmallow-oneofschema-3.0.1 marshmallow-sqlalchemy-0.26.1 mdit-py-plugins-0.4.0 mdurl-0.1.2 multidict-6.0.4 opentelemetry-api-1.20.0 opentelemetry-exporter-otlp-1.20.0 opentelemetry-exporter-otlp-proto-common-1.20.0 opentelemetry-exporter-otlp-proto-grpc-1.20.0 opentelemetry-exporter-otlp-proto-http-1.20.0 opentelemetry-proto-1.20.0 opentelemetry-sdk-1.20.0 opentelemetry-semantic-conventions-0.41b0 ordered-set-4.1.0 packaging-23.2 pathspec-0.11.2 pendulum-2.1.2 pluggy-1.3.0 prison-0.2.1 prometheus-client-0.18.0 prompt-toolkit-3.0.39 protobuf-4.24.4 psutil-5.9.6 pycparser-2.21 pydantic-2.4.2 pydantic-core-2.10.1 pygments-2.16.1 pyjwt-2.8.0 python-daemon-3.0.1 python-dateutil-2.8.2 python-nvd3-0.15.0 python-slugify-8.0.1 pytz-2023.3.post1 pytzdata-2020.1 referencing-0.30.2 requests-2.31.0 requests-toolbelt-1.0.0 rfc3339-validator-0.1.4 rfc3986-1.5.0 rich-13.6.0 rich-argparse-1.4.0 rpds-py-0.10.6 setproctitle-1.3.3 setuptools-69.0.3 sniffio-1.3.0 sqlalchemy-1.4.50 sqlalchemy-jsonfield-1.0.1.post0 sqlalchemy-utils-0.41.1 sqlparse-0.4.4 tabulate-0.9.0 tenacity-8.2.3 termcolor-2.3.0 text-unidecode-1.3 tornado-6.3.3 typing-extensions-4.8.0 tzdata-2023.3 uc-micro-py-1.0.2 unicodecsv-0.14.1 urllib3-1.26.18 vine-5.0.0 wcwidth-0.2.9 werkzeug-2.2.3 wrapt-1.15.0 yarl-1.9.2 zipp-3.17.0

@@ -1,0 +1,31 @@
+# python仮想環境
+# ※install toolでは、pjフォルダの外に作成するよう作り直した
+package_man/*
+
+# python, jupyter labの一時ファイル
+**/__pycache__/
+**/.ipynb_checkpoints/
+
+# airflow install時or初期化時に自動生成されるfile
+airflow/airflow.cfg
+airflow/airflow.db
+airflow/webserver_config.py
+airflow/logs/*
+airflow/*.pid
+
+# playbookが取得したpackage list
+data_package_man/*
+
+# playook(settings_package_man/*を元に、dagが自動生成)
+*.yml
+**/*.tar.gz
+
+# 設定ファイルは、sampleファイル(*.py.sample)のみ共有。
+# 対象ホストの設定ファイルは、共有から除外
+# settings_ansible.py
+settings_package_man/hostlist.py
+
+# log関連
+*.err
+*.log
+*.out

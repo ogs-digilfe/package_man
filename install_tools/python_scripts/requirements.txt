@@ -1,0 +1,12 @@
+# pip install -r requirements.txtの前に、apache airflowをinstall
+# constraintオプションが必要なので、仮想環境に入った後で以下を実行
+# $ pip install "apache-airflow[celery]==2.7.3" --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.7.3/constraints-3.8.txt"
+
+ansible
+pyyaml
+pandas
+pyarrow
+jupyterlab
+packaging
+Jinja2
+

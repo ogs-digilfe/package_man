@@ -1,0 +1,10 @@
+- name: Copy SSH Public Key to Managed Hosts
+  hosts: all
+  vars:
+    local_public_key: "~/.ssh/ogs-digilife.pub"
+  tasks:
+    - name: Install SSH Key
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', local_public_key) }}"

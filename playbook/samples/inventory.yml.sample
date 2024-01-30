@@ -1,0 +1,48 @@
+# ansibleコマンドとansible-playbookコマンドの実行例
+# ansible all -m ping -i inventory_file 
+# ansible-playbook site.yml -i inventory.yml
+##############
+##
+## ssh認証設定
+##
+##############
+all:
+  vars:
+    # password設定の場合
+    # OSの環境変数ANSIBLE_USERにsshユーザ名、とANSIBLE_SSH_PASSにsshパスワードをセットすること
+    ansible_user: "{{ lookup('env', 'ANSIBLE_USER') }}"
+    ansible_ssh_pass: "{{ lookup('env', 'ANSIBLE_SSH_PASS') }}"
+
+    # SSHホストキー(SSH接続先ホストfinger print)のチェックを無効化
+    # fingerprintをチェックしたい場合は不要。
+    # finger printをチェックしたい場合は、一度接続先にSSHアクセスをしてansilble managedホストのfingerpirintを記録しておく必要がある
+    ansible_ssh_extra_args: '-o StrictHostKeyChecking=no'
+    
+    # 公開鍵認証の場合
+    # 公開会議認証でmanagedホストにssh接続する場合は、controlホストの公開鍵を全managedホストに登録しておく必要がある。
+    # ansible_ssh_private_key_file: "{{ lookup('env', 'ANSIBLE_SSH_PRIVATE_KEY_FILE') }}"
+
+##############
+##
+## hostgroups and hosts
+##
+##############
+# debian系とredhat系でパッケージシステムが異なるため、hostグループで分ける。
+# debian系はhostグループ apt_hostsに、redhat系はhostグループyum_hostsに加えること。
+apt_hosts:
+  hosts:
+    debian1:
+      ansible_host: 100.100.100.100
+    debian2:
+      ansible_host: 100.100.100.101
+    debian3:
+      ansible_host: 100.100.100.102
+
+yum_hosts:
+  hosts:
+    redhat1:
+      ansible_host: 100.100.100.111
+    redhat2:
+      ansible_host: 100.100.100.112
+    redhat3:
+      ansible_host: 100.100.100.113
