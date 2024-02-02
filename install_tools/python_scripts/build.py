@@ -238,5 +238,7 @@ def build_python_venv():
     set_environment(AIRFLOW_HOME_ENV_VAR, AIRFLOW_HOME_PATH) # AIRFLOW_HOME
     set_environment(AIRFLOW__CORE__LOAD_EXAMPLES_VAR, "False") # skip loading defalut dag examples
 
+    print()
+    
 if __name__ == "__main__":
     build_python_venv()
