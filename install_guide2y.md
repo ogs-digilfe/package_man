@@ -2,8 +2,10 @@
 
 # はじめに
 このシステムは、現時点では、ubuntu22.04で動作することが前提となっている。
-# １．linux install時に実施すること
+# １．linux install時に実施すること  
+まずは、sshでアプリケーションを構築するホスト(以下、airflowホスト)にログインする。
 ## 1.1 loginユーザをsudowersに追記
+airflowホストを操作するユーザをsudoersに追加して特権権限を利用できるようにする。
 \$ sudo visudo  
 /etc/sudoers  
 が開くので、最終行に、以下を追記。  
@@ -14,29 +16,28 @@
 \---------------
 
 ## 1.2 packageの最新化
-以下は、debian系linuxの場合。  
+os packageを最新化しておく。  
 \$ sudo apt update  
 \$ sudo apt upgrade
 
-
 # ２．アプリケーションのインストール
 ## 2.1. パッケージのインストール
-installに必要なosパッケージをinstallしておく。  
+airflowのインストールに必要なosパッケージをinstallしておく。  
 以下は、ubuntu22.04にデフォルトで入ってなくて、installに必要なパッケージ。
-pythonのsubprocessコマンドでは、aptの動きが不安定。
 
 \$ sudo apt install make python3-venv python3-pip sshpass
 
 ## 2.2. コンテンツのgit clone
-アプリケーションコンテンツは、プロジェクトディレクトリ配下に作成されている。  
-git cloneする際、プロジェクトディレクトリごとダウンロードされるため、  
-まずはプロジェクトディレクトリをダウンロードするディレクトリに移動し、以下のgit cloneコマンドを実行する。  
-git cloneコマンドにおいて、リモートリポジトリの後ろにディレクトリ名を指定すると、プロジェクトディレクトリ名を自身の好みのディレクトリ名に変更することができる。  
+アプリケーションコンテンツは、プロジェクトフォルダ配下に作成される。  
+git cloneする際、プロジェクトフォルダごとダウンロードされるため、  
+まずはプロジェクトフォルダをダウンロードするフォルダに移動し、以下のgit cloneコマンドを実行する。  
+プロジェクトフォルダの保存場所(gitcloneを実行するフォルダ)は任意。  
+git cloneコマンドにおいて、リモートリポジトリの後ろにフォルダ名を指定すると、プロジェクトフォルダ名を自身の好みのディレクトリ名に変更することができる。  
+デフォルトのプロジェクトフォルダ名は、"package_man"。
 
 \$ cd /path/to/project_folders  
-\$ git clone https://github.com/ogs-digilfe/package_man [\<your favorit dir name\>]  
+\$ git clone https://github.com/ogs-digilfe/package_man [\<your favorit dir pj folder name\>]  
 
-デフォルトではプロジェクトフォルダ名はpackage_manとなる。
 以下、プロジェクトフォルダ名をpackage_manとして記述。
 
 ## 2.3. アプリケーションのビルド
@@ -46,8 +47,8 @@ $ make install
 
 # ３．初期設定
 ## 3.1. 仮想環境に入る
-osのpython環境に影響を与えないよう、専用の仮想環境にインストールされているため、  
-airflowを操作する際は、仮想環境に入って操作する。
+アプリケーションは、osのpython環境に影響を与えないよう、専用の仮想環境にインストールされている。  
+このため、airflowを操作する際は、仮想環境に入って操作する。
 仮想環境は、プロジェクトフォルダと同じフォルダに  
 venv_package_man 
 のフォルダ配下にインストールされている。  
@@ -72,6 +73,9 @@ sourceコマンドで  仮想環境のactvateファイルを読み込んで仮�
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--email your_mailaccount@example.org  
 
 初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ設定は完了。
+
+確認は、  
+\$ airflow users list
 
 ## 3.2. webサーバの起動
 仮想環境から、airflowに付属のwebaplicationを起動して初期ユーザでログインできるか確認する。  
@@ -114,13 +118,13 @@ package_man/settings_pacage_man/hostlist.py
 
 (例)
 (venv_package_man)\$ cp package_man/settings_package_man/samples/hostlist.py.sample \\  
-package_man/settings_package_man/host_list.py
+package_man/settings_package_man/hostlist.py
 
 
-nanoなどのエディタを使ってhost_list.pyを編集。
+nanoなどのエディタを使ってhostlist.pyを編集。
 
 以下、設定例。  
-\----- package_man/settings_package_man/host_list.py -----  
+\----- package_man/settings_package_man/hostlist.py -----  
 MANAGED_HOSTS_DCT = \{  
 &nbsp;&nbsp;\# sshでアクセスするipアドレスをキーとする  
 &nbsp;&nbsp;"192.168.0.100": {  
@@ -189,7 +193,7 @@ MANAGED_HOSTS_DCT = \{
   
 }
 
-\----- package_man/settings_package_man/host_list.py -----   
+\----- package_man/settings_package_man/hostlist.py -----   
 
 パッケージデータ収集対象のホストの設定はpythonの辞書オブジェクト(変数名MANAGED_HOSTS_DC)で、json形式で定義する。  
 複数のデータ収集対象ホストを登録可能。
@@ -230,7 +234,7 @@ ANSIBLE_USER="your_user_name"
 ssh_userの設定と同様に、\$\<環境変数\>で環境変数を参照させることも可能。  
 パスワードをプレーンテキストで設定ファイルに残すのはセキュリティ上好ましくないため、  
 airflowホストの~/.profileや/etc/environmentに環境変数としてセットし、  
-設定ファイル(host_list.py)は環境変数を参照させること。
+設定ファイル(hostlist.py)は環境変数を参照させること。
 もしくは、利用開始前に最初に公開鍵認証に対応させること。
 
 "ssh_secretkey_path"は、ansibleでホストに公開鍵認証でログインする際の秘密鍵のパスを指定する。
@@ -262,7 +266,7 @@ hostのインデックスは、ホストキーで指定したipアドレスと�
 "env": "dev"
 
 # ４．ansibleのログインテスト
-package_man/settings_package_man/host_list.py  
+package_man/settings_package_man/hostlist.py  
 が正しく設定できたかどうか確認する。
 
 確認は、ansibleを使って行う。  
@@ -271,8 +275,8 @@ package_man/settings_package_man/host_list.py
 (venv_package_man)\$ cd package_man/install_tools  
 (venv_package_man)\$ make inventory  
 
-package_man/settings_package_man/host_list.pyの設定内容を元に、  
-host_list.pypackage_man/playbook配下に、インベントリファイル"inventory.yml"が自動生成される。  
+package_man/settings_package_man/hostlist.pyの設定内容を元に、  
+hostlist.pypackage_man/playbook配下に、インベントリファイル"inventory.yml"が自動生成される。  
 
 ansible pingを使って、パッケージデータ収集対象のホストに正しくログインできるか確認。  
 インベントリファイルを使ってansible pingを実行。
@@ -280,7 +284,7 @@ ansible pingを使って、パッケージデータ収集対象のホストに�
 (venv_package_man)\$ cd package_man/playbook  
 (venv_package_man)\$ ansible all -i inventory.yml -m ping
 
-package_man/settings_package_man/host_list.pyに記述したパッケージ情報収集対象ホストに  
+package_man/settings_package_man/hostlist.pyに記述したパッケージ情報収集対象ホストに  
 ansibleで正しくログインできているか確認できる。
 正しくログインできている場合は、以下のように出力される。
 

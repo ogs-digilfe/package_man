@@ -23,7 +23,7 @@ data_package_man/*
 # 設定ファイルは、sampleファイル(*.py.sample)のみ共有。
 # 対象ホストの設定ファイルは、共有から除外
 # settings_ansible.py
-settings_package_man/hostlist.py
+settings_package_man/host_list.py
 
 # log関連
 *.err

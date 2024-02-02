@@ -9,7 +9,7 @@ SETTINGS_DIR = PJROOT_DIR / "settings_package_man"
 sys.path.append(str(SETTINGS_DIR))
 
 # import objects
-from host_list import MANAGED_HOSTS_DCT
+from hostlist import MANAGED_HOSTS_DCT
 from settings_ansible import ANSIBLE_CONF
 
 import pandas as pd

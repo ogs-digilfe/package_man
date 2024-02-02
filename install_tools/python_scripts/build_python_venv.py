@@ -198,13 +198,6 @@ def set_environment(airflow_home_env_var, value, file="/etc/environment"):
             f.write(content)
         command = f"sudo mv {current_dir}/environment {file}"
         subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
-    
-    # PCを再起動しなくてよいように、環境変数AIRFLOW_HOMEを実行環境にexport
-    command = f"export {airflow_home_env_var}={export_value}"
-    print(command)
-    subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
-
-    print()
 
 def airflow_db_init():
     stdout = "Call airflow_db_migrate method"
@@ -221,8 +214,8 @@ def airflow_db_init():
     venvpath = str(VENVPATH)
 
     # migrateでうまくいくと思われる。initはもうすぐ廃止されるとのこと。
-    command = f"{venvpath}/bin/python -m airflow db init"
-    # command = f"{venvpath}/bin/python -m airflow db migrate"
+    # command = f"{venvpath}/bin/python -m airflow db init"
+    command = f"{venvpath}/bin/python -m airflow db migrate"
 
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     print(result.stdout)
@@ -244,8 +237,6 @@ def build_python_venv():
     # 環境変数の設定
     set_environment(AIRFLOW_HOME_ENV_VAR, AIRFLOW_HOME_PATH) # AIRFLOW_HOME
     set_environment(AIRFLOW__CORE__LOAD_EXAMPLES_VAR, "False") # skip loading defalut dag examples
-
-    airflow_db_init()
 
 if __name__ == "__main__":
     build_python_venv()
