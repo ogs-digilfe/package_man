@@ -9,7 +9,7 @@ SETTINGS_DIR = PJROOT_DIR / "settings_package_man"
 sys.path.append(str(SETTINGS_DIR))
 
 # import objects
-from hostlist import MANAGED_HOSTS_DCT
+from host_list import MANAGED_HOSTS_DCT
 from settings_ansible import ANSIBLE_CONF
 
 import pandas as pd
@@ -634,7 +634,7 @@ class MakePlaybook():
 
         return play_dct
     
-    def make_inventory(self):
+    def make_inventory(self, Path_inventory_file=(PLAYBOOK_DIR/INVENTORY_FNAME)):
         stdout = "Call MakePlaybook.make_inventory method"
         print(stdout)
 
@@ -653,8 +653,8 @@ class MakePlaybook():
         output = output.replace("'\"", '"').replace("''", "'").replace("''", "'").replace("\"'", '"').replace(")\n       ", ")")
 
         # インベントリファイルの出力
-        fpath = PLAYBOOK_DIR / INVENTORY_FNAME
-        with open(str(fpath), "w") as f:
+        fpath = str(Path_inventory_file)
+        with open(fpath, "w") as f:
             f.write(output)
         
         stdout = f"Inventory file {str(fpath)} is generated"

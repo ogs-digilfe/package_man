@@ -14,6 +14,7 @@ DEFAULT_VENV_DIR = PJROOT_DIR.parent / ("venv_" + str(PJROOT_DIR).split("/")[-1]
 AIRFLOW_HOME_PATH = PJROOT_DIR / "airflow"
 ENVIRONMENT_FILE_PATH = "/etc/environment"
 AIRFLOW_HOME_ENV_VAR = "AIRFLOW_HOME"
+AIRFLOW__CORE__LOAD_EXAMPLES_VAR = "AIRFLOW__CORE__LOAD_EXAMPLES"
 
 
 # imoprt objects
@@ -219,7 +220,10 @@ def airflow_db_init():
 
     venvpath = str(VENVPATH)
 
+    # migrateでうまくいくと思われる。initはもうすぐ廃止されるとのこと。
     command = f"{venvpath}/bin/python -m airflow db init"
+    # command = f"{venvpath}/bin/python -m airflow db migrate"
+
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     print(result.stdout)
 
@@ -236,7 +240,10 @@ def build_python_venv():
     
     build_venv()
     install_python_packages()
-    set_environment(AIRFLOW_HOME_ENV_VAR, AIRFLOW_HOME_PATH)
+
+    # 環境変数の設定
+    set_environment(AIRFLOW_HOME_ENV_VAR, AIRFLOW_HOME_PATH) # AIRFLOW_HOME
+    set_environment(AIRFLOW__CORE__LOAD_EXAMPLES_VAR, "False") # skip loading defalut dag examples
 
     airflow_db_init()
 

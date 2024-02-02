@@ -25,16 +25,284 @@ installに必要なosパッケージをinstallしておく。
 以下は、ubuntu22.04にデフォルトで入ってなくて、installに必要なパッケージ。
 pythonのsubprocessコマンドでは、aptの動きが不安定。
 
-\$ sudo apt install make python3-venv python3-pip
+\$ sudo apt install make python3-venv python3-pip sshpass
 
 ## 2.2. コンテンツのgit clone
-アプリケーションコンテンツは、すべてプロジェクトディレクトリ配下に作成されている。  
+アプリケーションコンテンツは、プロジェクトディレクトリ配下に作成されている。  
 git cloneする際、プロジェクトディレクトリごとダウンロードされるため、  
-まずはプロジェクトディレクトリをダウンロードするディレクトリに移動し、git cloneコマンドを実行する。  
+まずはプロジェクトディレクトリをダウンロードするディレクトリに移動し、以下のgit cloneコマンドを実行する。  
 git cloneコマンドにおいて、リモートリポジトリの後ろにディレクトリ名を指定すると、プロジェクトディレクトリ名を自身の好みのディレクトリ名に変更することができる。  
 
 \$ cd /path/to/project_folders  
-\$ git clone  git clone https://github.com/ogs-digilfe/package_man [\<your favorit dir name\>]  
+\$ git clone https://github.com/ogs-digilfe/package_man [\<your favorit dir name\>]  
+
+デフォルトではプロジェクトフォルダ名はpackage_manとなる。
+以下、プロジェクトフォルダ名をpackage_manとして記述。
+
+## 2.3. アプリケーションのビルド
+Makefileを実行する。
+pacage_man/install_toolsに移動し、
+$ make install
+
+# ３．初期設定
+## 3.1. 仮想環境に入る
+osのpython環境に影響を与えないよう、専用の仮想環境にインストールされているため、  
+airflowを操作する際は、仮想環境に入って操作する。
+仮想環境は、プロジェクトフォルダと同じフォルダに  
+venv_package_man 
+のフォルダ配下にインストールされている。  
+sourceコマンドで  仮想環境のactvateファイルを読み込んで仮想環境に入る   
+\$ cd ..  
+\$ source venv_package_man/bin/activate  
+(venv_package_man)\$  
+
+(参考)
+仮想環境から抜ける場合は、  
+(venv_package_man)\$ deactivate  
+を実行。
+
+## 3.2. 初期ユーザ登録
+管理コンソールにログインするための初期ユーザを設定。
+設定値は、適宜書き換える。  
+(venv_package_man)\$ airflow users create \\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--username airflow_user \\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--firstname  your_firstname\\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--lastname your_lastname \\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--role Admin \\  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--email your_mailaccount@example.org  
+
+初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ設定は完了。
+
+## 3.2. webサーバの起動
+仮想環境から、airflowに付属のwebaplicationを起動して初期ユーザでログインできるか確認する。  
+-pオプションでポート番号は自由に設定可能であるが、以下、8080に指定したことを前提に説明。  
+(venv_package_man)\$ airflow webserver -p 8080  
+
+バックエンドでwebserverを起動したい場合は、nohupコマンドと出力のリダイレクトを使って、
+(venv_package_man)\$ nohup airflow webserver -p 8080  > /dev/null 2>&1 &  
+
+webserverが起動したら、操作端末のブラウザを起動。  
+http://\<airflowサーバのipアドレス>:8080  
+
+(例)  
+http://192.168.0.136:8080
+
+とりあえず、ログインできたらok。
+一旦、airflow webサーバのプロセスを落とす。  
+
+フロントエンドで起動している場合は、  
+Ctrl+C  
+でプロセスを停止。  
+
+バックエンドで起動している場合は、  
+(venv_package_man)\$ ps -ax |grep aiflow  
+で、  
+"airflow webserver -p 8080"  
+の文字列を含むプロセスがメインプロセスなので、メインプロセスのprocessIDを確認。  
+killする。
+
+(venv_package_man)\$ sudo kill \<processid>
+
+## 3.3. 対象ホストの設定
+パッケージ情報を収集先ホストのホスト情報の設定をする。  
+
+サンプルの設定ファイルが、  
+package_man/settings_package_man/samples/hostlist.py.sample  
+に保存されているので、
+package_man/settings_pacage_man/hostlist.py  
+にコピーする。  
+
+(例)
+(venv_package_man)\$ cp package_man/settings_package_man/samples/hostlist.py.sample \\  
+package_man/settings_package_man/host_list.py
+
+
+nanoなどのエディタを使ってhost_list.pyを編集。
+
+以下、設定例。  
+\----- package_man/settings_package_man/host_list.py -----  
+MANAGED_HOSTS_DCT = \{  
+&nbsp;&nbsp;\# sshでアクセスするipアドレスをキーとする  
+&nbsp;&nbsp;"192.168.0.100": {  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 必須設定項目  
+&nbsp;&nbsp;&nbsp;&nbsp;\# sshのログインユーザとパスワードでログインする場合。ここで直に設定。   
+&nbsp;&nbsp;&nbsp;&nbsp;"ssh": {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_auth_method": "password",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_user": "ssh_user",    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_password": "ssh_password",   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_secretkey_path": "$ANSIBLE_SSH_PRIVATE_KEY_FILE",  
+&nbsp;&nbsp;&nbsp;&nbsp;},  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "host0",  
+&nbsp;&nbsp;&nbsp;&nbsp;"package_manager": "apt",
+
+&nbsp;&nbsp;&nbsp;&nbsp;\# 任意設定項目(タグ)  
+&nbsp;&nbsp;&nbsp;&nbsp;"env": "dev",  
+&nbsp;&nbsp;},
+
+&nbsp;&nbsp;"192.168.0.101": {  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 必須設定項目  
+&nbsp;&nbsp;&nbsp;&nbsp;\# sshのログインユーザとパスワードでログインする場合。airflowホストの環境変数にsshログインユーザとパスワードを設定  
+&nbsp;&nbsp;&nbsp;&nbsp;"ssh": {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_auth_method": "password",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_user": "$ANSIBLE_USER",    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_password": "$ANSIBLE_SSH_PASS",   
+&nbsp;&nbsp;&nbsp;&nbsp;},  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "host1",  
+&nbsp;&nbsp;&nbsp;&nbsp;"package_manager": "apt",
+
+&nbsp;&nbsp;&nbsp;&nbsp;\# 任意設定項目(タグ)  
+&nbsp;&nbsp;&nbsp;&nbsp;"env": "dev",  
+&nbsp;&nbsp;},
+
+&nbsp;&nbsp;"192.168.0.110": {  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 必須設定項目  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 公開鍵でログインする場合。airflowホストの環境変数に公開鍵のペアとなる秘密鍵ファイルのパスを記述して設定。  
+&nbsp;&nbsp;&nbsp;&nbsp;"ssh": {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_auth_method": "keypair",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_user": "ssh_user",    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_secretkey_path": "/home/your_username/.ssh/id_rsa",  
+&nbsp;&nbsp;&nbsp;&nbsp;},  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "host10",  
+&nbsp;&nbsp;&nbsp;&nbsp;"package_manager": "apt",
+
+&nbsp;&nbsp;&nbsp;&nbsp;\# 任意設定項目(タグ)  
+&nbsp;&nbsp;&nbsp;&nbsp;"env": "dev",  
+&nbsp;&nbsp;},
+
+&nbsp;&nbsp;"192.168.0.111": {  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 必須設定項目  
+&nbsp;&nbsp;&nbsp;&nbsp;\# 公開鍵でログインする場合。airflowホストの環境変数に公開鍵のペアとなる秘密鍵ファイルのパスをセットして設定。  
+&nbsp;&nbsp;&nbsp;&nbsp;"ssh": {  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_auth_method": "keypair",  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_user": "$ANSIBLE_USER",    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ssh_secretkey_path": "$ANSIBLE_SSH_PRIVATE_KEY_FILE",  
+&nbsp;&nbsp;&nbsp;&nbsp;},  
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "host11",  
+&nbsp;&nbsp;&nbsp;&nbsp;"package_manager": "apt",
+
+&nbsp;&nbsp;&nbsp;&nbsp;\# 任意設定項目(タグ)  
+&nbsp;&nbsp;&nbsp;&nbsp;"env": "dev",  
+&nbsp;&nbsp;},
+
+&nbsp;&nbsp;\# 次のホストを同じように設定  
+&nbsp;&nbsp;\# 以下続く  
+  
+}
+
+\----- package_man/settings_package_man/host_list.py -----   
+
+パッケージデータ収集対象のホストの設定はpythonの辞書オブジェクト(変数名MANAGED_HOSTS_DC)で、json形式で定義する。  
+複数のデータ収集対象ホストを登録可能。
+
+<b>ホスト</b>  
+ホストは、「<b><u>sshで接続するipアドレス</u></b>」で指定のこと  
+(例) "192.168.0.100": {\<ホスト設定の中身\>}
+
+以下は、必須設定項目  
+"ssh"  
+"name"  
+"package_manager"  
+は必須設定項目。
+
+任意設定項目は、ホストのタグとして活用。  
+"key": "value"  
+の形式で任意に、いくつでも設定できる。  
+アプリケーションが対象ホストをフィルタするために利用される。
+
+<b>"ssh"の設定</b>  
+パッケージデータ収集は、airflowホストがansibleを使って収集する。
+
+"ssh_auth_method"は、ansibleのssh認証方式をパスワード認証にするか、公開鍵認証にするか指定。  
+"password"、または"keypair"(公開鍵認証)で指定する。
+
+"ssh_user"は、ansibleで対象ホストにログインする際のosユーザーを指定する。  
+osユーザの指定において、airflowがインストールされたホストの環境変数を参照する場合は、\$\<環境変数\>の形式で環境変数を参照可能。  
+linuxホストへの環境変数のセット方法は、複数ある。
+一例として、airflowホストの/etc/environmentに、
+ANSIBLE_USER="your_user_name"  
+のように記述すると、airflowホスト起動時に、環境変数ANSIBLE_USERを自動読み込みする。
+/etc/environmentを編集後、ホストを再起動せずに環境変数の設定を反映させたい場合はsourceコマンドを使って/etc/environmentを読み込む。  
+
+(venv_package_man)\$ source /etc/environment
+
+"ssh_password"は、ansibleでホストにログインする際のパスワードを指定する。  
+"ssh_auth_method"が"keypair"の場合は、"ssh_password"は設定不要であり、何か設定されていても無視される。
+ssh_userの設定と同様に、\$\<環境変数\>で環境変数を参照させることも可能。  
+パスワードをプレーンテキストで設定ファイルに残すのはセキュリティ上好ましくないため、  
+airflowホストの~/.profileや/etc/environmentに環境変数としてセットし、  
+設定ファイル(host_list.py)は環境変数を参照させること。
+もしくは、利用開始前に最初に公開鍵認証に対応させること。
+
+"ssh_secretkey_path"は、ansibleでホストに公開鍵認証でログインする際の秘密鍵のパスを指定する。
+"ssh_auth_method"が"password"の場合は、設定不要。何か設定されていても無視される。
+airflowがインストールされたホストの環境変数にセットしている場合は、\$\<環境変数\>で指定可能。
+新たに鍵ペアを作成して、パッケージデータ収集ホストにairflowホストの公開鍵をコピー
+
+<b>"name"の設定</b> 
+ホスト名を設定する。  
+ホスト名がfqdnである必要はなく、また、他のホストと重複しても問題ない。  
+hostのインデックスは、ホストキーで指定したipアドレスとホスト名の組み合わせで一意に識別されるため。
+
+<b>"package_manager"の設定</b>  
+データ収集対象ホストのパッケージシステムを指定。  
+
+(例)  
+ "package_manager": "apt"
+
+他には、"yum", "dnf", "pacman"などに対応予定。  
+
+<b>任意設定項目</b>  
+フィルタ用途で任意のタグをkey-value形式で設定すると後々便利。  
+例えば、"env"というキーに、商用環境か、検証環境か、ステージング環境か設定しておくと、  
+フィルタ機能を使って検証環境だけ対象にするなどの操作が可能。  
+将来的にはパッケージの自動更新にも対応する予定なので、用途に合わせて任意設定項目を設定する。  
+任意設定項目は、必要なだけ、複数設定可能である。
+
+(例)  
+"env": "dev"
+
+# ４．ansibleのログインテスト
+package_man/settings_package_man/host_list.py  
+が正しく設定できたかどうか確認する。
+
+確認は、ansibleを使って行う。  
+まずは、インベントリファイルを作成。  
+
+(venv_package_man)\$ cd package_man/install_tools  
+(venv_package_man)\$ make inventory  
+
+package_man/settings_package_man/host_list.pyの設定内容を元に、  
+host_list.pypackage_man/playbook配下に、インベントリファイル"inventory.yml"が自動生成される。  
+
+ansible pingを使って、パッケージデータ収集対象のホストに正しくログインできるか確認。  
+インベントリファイルを使ってansible pingを実行。
+
+(venv_package_man)\$ cd package_man/playbook  
+(venv_package_man)\$ ansible all -i inventory.yml -m ping
+
+package_man/settings_package_man/host_list.pyに記述したパッケージ情報収集対象ホストに  
+ansibleで正しくログインできているか確認できる。
+正しくログインできている場合は、以下のように出力される。
+
+(正しくログインできた場合の出力例)  
+\---------------  
+hostname_192.168.0.100 | SUCCESS => {  
+&nbsp;&nbsp;"ansible_facts": {  
+&nbsp;&nbsp;&nbsp;&nbsp;"discovered_interpreter_python": "/usr/bin/python3"  
+&nbsp;&nbsp;},  
+&nbsp;&nbsp;"changed": false,  
+&nbsp;&nbsp;"ping": "pong"  
+}  
+：  
+以下、設定したすべてのホストがerrorなく出力されていればok。  
+\---------------
+
+ansibleによる対象ホストへのログインの確認のみであり、対象ホストの"package_manager"のチェックは行わない。  
+ubuntuホストの"package_manager"に、"yum"などの誤ったパッケージシステムを設定した場合は、
+パッケージ情報収集時にエラーを出力する。
+
+# ５．ansibleのログインテスト
+
 
 
 
@@ -256,5 +524,7 @@ pjroot/notebooksで、以下のコマンドを実行
 $ jupyter-lab --ip='0.0.0.0' --no-browser
 バックグラウンドで起動させる場合は、
 $ nohup jupyter-lab --ip='0.0.0.0' --no-browser > /dev/null 2>&1 &
+
+
 
 
