@@ -52,62 +52,41 @@ $ make install
 仮想環境は、プロジェクトフォルダと同じフォルダに  
 venv_package_man 
 のフォルダ配下にインストールされている。  
-sourceコマンドで  仮想環境のactvateファイルを読み込んで仮想環境に入る   
+sourceコマンドで  仮想環境のactvateファイルを読み込んで仮想環境に入る。 
+仮想環境に入ったら、プロンプトの前に(\<仮想環境名\>)が表示される。  
 \$ cd ..  
 \$ source venv_package_man/bin/activate  
 (venv_package_man)\$  
 
-(参考)
-仮想環境から抜ける場合は、  
-(venv_package_man)\$ deactivate  
-を実行。
+## 3.2. airflow dbの初期化
+以下の2つのコマンドを実行する。  
 
-## 3.2. 初期ユーザ登録
+(venv_package_man)\$ source /etc/environment   
+(venv_package_man)\$ airflow db migrate
+
+## 3.3. airflow初期ユーザ登録
 管理コンソールにログインするための初期ユーザを設定。
-設定値は、適宜書き換える。  
-(venv_package_man)\$ airflow users create \\  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--username airflow_user \\  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--firstname  your_firstname\\  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--lastname your_lastname \\  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--role Admin \\  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--email your_mailaccount@example.org  
+role以外の設定値は、適宜書き換える。  
+(venv_package_man)\$ airflow users create  --username user  --firstname firstname --lastname lastname --role Admin --email email@domain.com
+
 
 初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ設定は完了。
 
 確認は、  
 \$ airflow users list
 
-## 3.2. webサーバの起動
+## 3.4. webサーバの起動
 仮想環境から、airflowに付属のwebaplicationを起動して初期ユーザでログインできるか確認する。  
 -pオプションでポート番号は自由に設定可能であるが、以下、8080に指定したことを前提に説明。  
 (venv_package_man)\$ airflow webserver -p 8080  
 
-バックエンドでwebserverを起動したい場合は、nohupコマンドと出力のリダイレクトを使って、
-(venv_package_man)\$ nohup airflow webserver -p 8080  > /dev/null 2>&1 &  
-
-webserverが起動したら、操作端末のブラウザを起動。  
-http://\<airflowサーバのipアドレス>:8080  
-
 (例)  
 http://192.168.0.136:8080
 
-とりあえず、ログインできたらok。
+とりあえず、初期ユーザでログインできたらok。
 一旦、airflow webサーバのプロセスを落とす。  
 
-フロントエンドで起動している場合は、  
-Ctrl+C  
-でプロセスを停止。  
-
-バックエンドで起動している場合は、  
-(venv_package_man)\$ ps -ax |grep aiflow  
-で、  
-"airflow webserver -p 8080"  
-の文字列を含むプロセスがメインプロセスなので、メインプロセスのprocessIDを確認。  
-killする。
-
-(venv_package_man)\$ sudo kill \<processid>
-
-## 3.3. 対象ホストの設定
+## 3.5. 対象ホストの設定
 パッケージ情報を収集先ホストのホスト情報の設定をする。  
 
 サンプルの設定ファイルが、  
