@@ -52,10 +52,11 @@ $ make install
 仮想環境は、プロジェクトフォルダと同じフォルダに  
 venv_package_man 
 のフォルダ配下にインストールされている。  
-sourceコマンドで  仮想環境のactvateファイルを読み込んで仮想環境に入る。 
+sourceコマンドで  仮想環境のactvateファイルを読み込んで仮想環境に入る。  
+仮想環境のフォルダのパスは、適宜インストール環境に合わせること。 
 仮想環境に入ったら、プロンプトの前に(\<仮想環境名\>)が表示される。  
-\$ cd ..  
-\$ source venv_package_man/bin/activate  
+
+\$ source /path/to/venv_package_man/bin/activate  
 (venv_package_man)\$  
 
 ## 3.2. airflow dbの初期化
