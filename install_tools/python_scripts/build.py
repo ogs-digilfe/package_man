@@ -227,10 +227,10 @@ def make_airfolow_set_env_sh():
 
     content  = "#!/bin/bash\n\n"
     content += 'sudo timedatectl set-timezone Asia/Tokyo\n'
-    content += f'export AIRFLOW_HOME_PATH="{airflow_home}"\n'
-    content += f'AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
+    content += f'export AIRFLOW_HOME="{airflow_home}"\n'
+    content += f'export AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
     content += f'source {venv_path}/bin/activate\n'
-    content += 'airflow db migrate\n'
+    content += 'airflow db migrate'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)

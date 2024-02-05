@@ -44,7 +44,19 @@ git cloneコマンドにおいて、リモートリポジトリの後ろにフ�
 Makefileを実行する。
 pacage_man/install_toolsに移動し、
 
-$ make install set_airflow_env.sh
+\$ make install
+
+## 2.4. アプリケーション動作環境のセット
+install直後は、環境変数の設定やアプリケーションを実行する仮想環境へのスイッチがなされていない。  
+package_man/install_toolsのシェルスクリプト"set_airflow_env.sh"を実行してアプリケーション環境をセットする。
+
+\$ source set_airflow_env.sh
+
+※補足  
+アプリケーションビルド時に、set_airflow_env.shは  
+/etc/profile.d  
+配下にコピーされているので、sshログイン時に自動セットされるようになっている。
+
 
 ## 2.4. airflow dbの初期化
 
