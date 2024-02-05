@@ -230,18 +230,28 @@ def make_airfolow_set_env_sh():
     content += f'export AIRFLOW_HOME="{airflow_home}"\n'
     content += f'export AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
     content += f'source {venv_path}/bin/activate\n'
-    content += 'airflow db migrate'
+
+    # /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}にはもっていかない。
+    content2 = content
+    content += 'airflow db migrate\n'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
-    fpath = f'{dir_name}/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
-    with open(fpath, "w") as f:
+    fpath1 = f'{dir_name}/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
+    with open(fpath1, "w") as f:
         f.write(content)
-    stdout = f'Bash script to set airflow env was made as {fpath}'
+    
+    # /etc/profile.dに保存するcontentをファイル名"tmp"としてカレントディレクトリに作成
+    fpath2 = f'{dir_name}/tmp'
+    with open(fpath2, "w") as f:
+        f.write(content2)
+
+    stdout = f'Bash script to set airflow env was made as {fpath1}'
     print(stdout)
 
-    # /etc/profile.d配下に保存して、再起動時に自動でpackage_man(airflow)動作環境に入るようにしておく
-    command = f'sudo cp {fpath} /etc/profile.d'
+    # /etc/profile.d配下に移動後、
+    # 再起動時に環境変数をセットして自動でpackage_man(airflow)動作環境にスイッチするようにしておく
+    command = f'sudo mv {fpath2} /etc/profile.d'
     subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     stdout = f'Bash script to set airflow env was copied to /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}\n'
     print(stdout)

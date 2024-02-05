@@ -52,55 +52,47 @@ package_man/install_toolsのシェルスクリプト"set_airflow_env.sh"を実�
 
 \$ source set_airflow_env.sh
 
-※補足  
-アプリケーションビルド時に、set_airflow_env.shは  
+シェルスクリプトを実行すると、シェルがpackage_man(airflow)実行するための仮想環境にスイッチする。  
+シェルプロンプトの前に(\<仮想環境名\>)が表示されればok。
+
+
+※補足１  
+set_airflow_env.shはアプリケーションビルド時に、  
 /etc/profile.d  
-配下にコピーされているので、sshログイン時に自動セットされるようになっている。
+配下にコピーされているので、次回以降sshログイン時は、set_airflow_env.shが実行され、  
+自動で仮想環境にスイッチされるようになっている。  
+python仮想環境から抜け出したい場合は、
 
+\$ deactivate
 
-## 2.4. airflow dbの初期化
+で抜け出すことができる。
 
+次回以降sshログイン時は、自動でpackage_man(airflow)を実行するための仮想環境にスイッチするが、  
+この場合はシェルプロンプトの前の(venv_package_man)が表示されない。
 
-環境変数などを読み込むために、同じくpackage_man/install_toolsにあるスクリプトを実行する
+※補足２  
+make installコマンド実行時に、package_man(airflow)アプリケーションを実行するための仮想環境が  
+作成される。
+仮想環境は、package_man(airflow)アプリケーションのプロジェクトフォルダ(gitcloneを実行したフォルダ)  に、  "venv_package_man"のフォルダ名で作成される。  
+package_man(airflow)アプリケーションは仮想環境で実行する必要があるため、deactivateコマンドで仮想環境を抜けた後に  
+再度airflowを操作したい場合は、
 
-$ source 
+\$ source /path/to/venv_package_man/bin/activate
 
-$ sudo reboot
+を実行して、仮想環境に入ってからairflowを操作する必要がある。
 
-# ３．初期設定
-## 3.1. 仮想環境に入る
-アプリケーションは、osのpython環境に影響を与えないよう、専用の仮想環境にインストールされている。  
-このため、airflowを操作する際は、仮想環境に入って操作する。
-仮想環境は、プロジェクトフォルダと同じ親フォルダの  
-venv_package_man 
-フォルダ配下にインストールされている。  
-
-sourceコマンドで  仮想環境のactvateファイルを実行して仮想環境に入る。  
-仮想環境のフォルダのパスは、適宜インストール環境に合わせること。 
-仮想環境に入ったら、プロンプトの前に(\<仮想環境名\>)が表示される。  
-
-\$ cd /path/to/venv_package_man
-\$ source bin/activate  
-(venv_package_man)\$  
-
-## 3.2. airflow dbの初期化
-airflow dbの初期化をする。  
-以下のコマンドを実行する。
-
-(venv_package_man)\$ airflow db migrate
-
-## 3.3. airflow初期ユーザ登録
-管理コンソールにログインするための初期ユーザを設定。
+# ３．アプリケーションの初期設定
+## 3.1. airflow初期ユーザ登録
+airflowの管理コンソールwebにログインするための初期ユーザを設定。
 role以外の設定値は、適宜書き換える。  
 
-(venv_package_man)\$ airflow users create  --username user  --firstname firstname --lastname lastname --role Admin --email email@domain.com
+\$ airflow users create  --username user  --firstname firstname --lastname lastname --role Admin --email email@domain.com
 
-
-初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ設定は完了。
+初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ登録は完了。
 
 登録ユーザの確認は、  
 
-(venv_package_man)\$ airflow users list
+\$ airflow users list
 
 ## 3.4. webサーバの起動
 仮想環境から、airflowに付属のwebaplicationを起動して初期ユーザでログインできるか確認する。  
@@ -108,10 +100,10 @@ role以外の設定値は、適宜書き換える。
 (venv_package_man)\$ airflow webserver -p 8080  
 
 (例)  
-http://192.168.0.136:8080
+http://\<package_manホストip address\>:8080
 
 とりあえず、初期ユーザでログインできたらok。
-一旦、airflow webサーバのプロセスを落とす。  
+一旦、Ctrl+Cでairflow webサーバのプロセスを落とす。  
 
 ## 3.5. 対象ホストの設定
 パッケージ情報を収集先ホストのホスト情報の設定をする。  
@@ -227,12 +219,8 @@ MANAGED_HOSTS_DCT = \{
 "ssh_user"は、ansibleで対象ホストにログインする際のosユーザーを指定する。  
 osユーザの指定において、airflowがインストールされたホストの環境変数を参照する場合は、\$\<環境変数\>の形式で環境変数を参照可能。  
 linuxホストへの環境変数のセット方法は、複数ある。
-一例として、airflowホストの/etc/environmentに、
-ANSIBLE_USER="your_user_name"  
-のように記述すると、airflowホスト起動時に、環境変数ANSIBLE_USERを自動読み込みする。
-/etc/environmentを編集後、ホストを再起動せずに環境変数の設定を反映させたい場合はsourceコマンドを使って/etc/environmentを読み込む。  
+即時反映させたい場合は、exportコマンドで反映させる。
 
-(venv_package_man)\$ source /etc/environment
 
 "ssh_password"は、ansibleでホストにログインする際のパスワードを指定する。  
 "ssh_auth_method"が"keypair"の場合は、"ssh_password"は設定不要であり、何か設定されていても無視される。
@@ -245,7 +233,7 @@ airflowホストの~/.profileや/etc/environmentに環境変数としてセッ�
 "ssh_secretkey_path"は、ansibleでホストに公開鍵認証でログインする際の秘密鍵のパスを指定する。
 "ssh_auth_method"が"password"の場合は、設定不要。何か設定されていても無視される。
 airflowがインストールされたホストの環境変数にセットしている場合は、\$\<環境変数\>で指定可能。
-新たに鍵ペアを作成して、パッケージデータ収集ホストにairflowホストの公開鍵をコピー
+新たに鍵ペアを作成して、パッケージデータ収集ホストにairflowホストの公開鍵をコピー。
 
 <b>"name"の設定</b> 
 ホスト名を設定する。  
