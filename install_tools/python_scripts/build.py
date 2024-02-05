@@ -226,9 +226,11 @@ def make_airfolow_set_env_sh():
     venv_path = str(VENVPATH)
 
     content  = "#!/bin/bash\n\n"
+    content += 'sudo timedatectl set-timezone Asia/Tokyo\n'
     content += f'export AIRFLOW_HOME_PATH="{airflow_home}"\n'
     content += f'AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
-    content += f'source {venv_path}/bin/activate'
+    content += f'source {venv_path}/bin/activate\n'
+    content += 'airflow db init\n'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
@@ -241,7 +243,7 @@ def make_airfolow_set_env_sh():
     # /etc/profile.d配下に保存して、再起動時に自動でpackage_man(airflow)動作環境に入るようにしておく
     command = f'sudo cp {fpath} /etc/profile.d'
     subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
-    stdout = f'Bash script to set airflow env was copied to /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
+    stdout = f'Bash script to set airflow env was copied to /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}\n'
     print(stdout)
 
     print()
