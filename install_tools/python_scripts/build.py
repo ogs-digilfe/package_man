@@ -4,17 +4,13 @@ from pathlib import Path
 CURRENT_DIR = Path(__file__).parent
 PJROOT_DIR = CURRENT_DIR.parent.parent
 
-TEMPLATE_DIR = CURRENT_DIR.parent / "playbook_templates"
-INVENTORY_TEMPLATE_FNAME = "inventory.template"
-PLAYBOOK_TEMPLATE_FNAME = "install_python_packages.template"
-PLAYBOOK_DIR = CURRENT_DIR.parent / "playbook"
-INVENTORY_FNAME = "inventory.yml"
-PLAYBOOK_FNAME = "install_python_packages.yml"
 DEFAULT_VENV_DIR = PJROOT_DIR.parent / ("venv_" + str(PJROOT_DIR).split("/")[-1])
 AIRFLOW_HOME_PATH = PJROOT_DIR / "airflow"
-ENVIRONMENT_FILE_PATH = "/etc/environment"
-AIRFLOW_HOME_ENV_VAR = "AIRFLOW_HOME"
-AIRFLOW__CORE__LOAD_EXAMPLES_VAR = "AIRFLOW__CORE__LOAD_EXAMPLES"
+
+# ENVIRONMENT_FILE_PATH = "/etc/environment"
+SET_AIRFLOW_ENV_SCRIPT_DIR = CURRENT_DIR.parent
+SET_AIRFLOW_ENV_SCRIPT_FNAME = "set_airflow_env.sh"
+
 
 
 # imoprt objects
@@ -105,6 +101,7 @@ def build_venv():
     os.makedirs(venv_dir, exist_ok=True)
 
     # 仮想環境が作成済かどうかチェックする
+    # 作成済の場合は仮想環境の作成をスキップする
     fp = str(VENVPATH/"pyvenv.cfg")
     if os.path.exists(fp):
         stdout = f"venv {VENVPATH} already exists --> skip building venv"
@@ -220,25 +217,49 @@ def airflow_db_init():
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     print(result.stdout)
 
+def make_airfolow_set_env_sh():
+    stdout = "Call set_environment_vars method"
+    print(stdout)
 
-def build_python_venv():
-    # defaultオプションでinstallする場合は、不要
-    # defaultオプションのinstallで十分なので、なくても良いが、つけておいた
-    get_args()
+    # shell script contentの生成
+    airflow_home = str(AIRFLOW_HOME_PATH)
+    venv_path = str(VENVPATH)
 
-    # aptはpython subprocessモジュールから実行すると動きが不安定になるので、ここは最初に手動でinstallする。
-    # $ sudo apt update
-    # $ sudo apt install make python3-venv python3-pip
-    # install_os_packages()
-    
-    build_venv()
-    install_python_packages()
+    content  = "#!/bin/bash\n\n"
+    content += f'export AIRFLOW_HOME_PATH="{airflow_home}"\n'
+    content += f'AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
+    content += f'source {venv_path}/bin/activate'
 
-    # 環境変数の設定
-    set_environment(AIRFLOW_HOME_ENV_VAR, AIRFLOW_HOME_PATH) # AIRFLOW_HOME
-    set_environment(AIRFLOW__CORE__LOAD_EXAMPLES_VAR, "False") # skip loading defalut dag examples
+    # bash scriptの保存
+    dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
+    fpath = f'{dir_name}/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
+    with open(fpath, "w") as f:
+        f.write(content)
+    stdout = f'Bash script to set airflow env was made as {fpath}'
+    print(stdout)
+
+    # /etc/profile.d配下に保存して、再起動時に自動でpackage_man(airflow)動作環境に入るようにしておく
+    command = f'sudo cp {fpath} /etc/profile.d'
+    subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
+    stdout = f'Bash script to set airflow env was copied to /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
+    print(stdout)
 
     print()
+
+def build_python_venv():
+    # defaultオプションでinstallする場合は、get_argsは無い方がスッキリする。
+    # defaultオプションのinstallで十分なので、なくても良かったが、最初につけてしまったのでそのまま利用することにした。
+    get_args()
+
+    # python仮想環境のビルド
+    build_venv()
+    
+    # 仮想環境にpackage_manで利用するpython外部パッケージ(PyPiパッケージ)をインストールする
+    install_python_packages()
+
+    # package_man(airflow)が利用する環境変数をセットして、package_man(airflow)を動かす仮想環境に入るスクリプトを生成。
+    # 生成したスクリプトを、/etc/profile.d配下にコピーして、次回以降ログイン時に自動的にpackage_man(airflow)動作環境に入れるようにする。
+    make_airfolow_set_env_sh()
     
 if __name__ == "__main__":
     build_python_venv()

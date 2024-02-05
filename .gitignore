@@ -13,6 +13,10 @@ airflow/webserver_config.py
 airflow/logs/*
 airflow/*.pid
 
+# airflow動作環境をセットするスクリプト
+# インストール環境にあわせて動的に作成されるため、gitでは共有しない。
+set_airflow_env.sh
+
 # playbookが取得したpackage list
 data_package_man/*
 
