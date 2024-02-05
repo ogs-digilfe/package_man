@@ -251,7 +251,7 @@ def make_airfolow_set_env_sh():
 
     # /etc/profile.d配下に移動後、
     # 再起動時に環境変数をセットして自動でpackage_man(airflow)動作環境にスイッチするようにしておく
-    command = f'sudo mv {fpath2} /etc/profile.d'
+    command = f'sudo mv {fpath2} /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
     subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     stdout = f'Bash script to set airflow env was copied as /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}\n'
     print(stdout)
