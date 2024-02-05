@@ -44,9 +44,14 @@ git cloneコマンドにおいて、リモートリポジトリの後ろにフ�
 Makefileを実行する。
 pacage_man/install_toolsに移動し、
 
-$ make install
+$ make install set_airflow_env.sh
 
-環境変数などを読み込むために、一度ホストを再起動する。
+## 2.4. airflow dbの初期化
+
+
+環境変数などを読み込むために、同じくpackage_man/install_toolsにあるスクリプトを実行する
+
+$ source 
 
 $ sudo reboot
 

@@ -230,7 +230,7 @@ def make_airfolow_set_env_sh():
     content += f'export AIRFLOW_HOME_PATH="{airflow_home}"\n'
     content += f'AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
     content += f'source {venv_path}/bin/activate\n'
-    content += 'airflow db init\n'
+    content += 'airflow db migrate\n'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
