@@ -234,7 +234,7 @@ def make_airfolow_set_env_sh():
     # /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}にはもっていかない処理。
     content2 = content
     content += 'airflow db migrate\n'
-    content += f'{venv_path}/bin/python make_airflow_cfg.py\n''
+    content += f'{venv_path}/bin/python make_airflow_cfg.py\n'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
