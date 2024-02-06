@@ -129,7 +129,7 @@ def install_python_packages():
 
     # requirements.txtから必要なpypiのパッケージをinstallする
     venv_name = venvpath.split("/")[-1]
-    stdout = f"install paython external packages required to venv {venv_name}"
+    stdout = f"install paython external packages required for venv {venv_name}"
     print(stdout)
     command = f"{venvpath}/bin/python -m pip install -r {currentpath}/requirements.txt"
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
@@ -231,9 +231,10 @@ def make_airfolow_set_env_sh():
     content += f'export AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
     content += f'source {venv_path}/bin/activate\n'
 
-    # /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}にはもっていかない。
+    # /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}にはもっていかない処理。
     content2 = content
     content += 'airflow db migrate\n'
+    content += f'{venv_path}/bin/python make_airflow_cfg.py\n''
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)

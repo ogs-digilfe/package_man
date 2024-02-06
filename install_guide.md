@@ -47,13 +47,15 @@ pacage_man/install_toolsに移動し、
 \$ make install
 
 ## 2.4. アプリケーション動作環境のセット
-install直後は、環境変数の設定やアプリケーションを実行する仮想環境へのスイッチがなされていない。  
+make installコマンド実行時に、package_man(airflow)アプリケーションを実行するための仮想環境が  
+作成される。  
+ただし、install直後は、アプリケーションが参照する環境変数の設定や、アプリケーションを実行するシェルの仮想環境へのスイッチがなされていない。  
 package_man/install_toolsのシェルスクリプト"set_airflow_env.sh"を実行してアプリケーション環境をセットする。
 
 \$ source set_airflow_env.sh
 
-シェルスクリプトを実行すると、シェルがpackage_man(airflow)実行するための仮想環境にスイッチする。  
-シェルプロンプトの前に(\<仮想環境名\>)が表示されればok。
+シェルスクリプトを実行すると、シェルがpackage_man(airflow)実行するための環境変数をセットし、実行するための仮想環境のシェルにスイッチする。  
+シェルプロンプトの前に仮想環境名(venv_package_man)が表示されればok。
 
 
 ※補足１  
@@ -61,18 +63,20 @@ set_airflow_env.shはアプリケーションビルド時に、
 /etc/profile.d  
 配下にコピーされているので、次回以降sshログイン時は、set_airflow_env.shが実行され、  
 自動で仮想環境にスイッチされるようになっている。  
-python仮想環境から抜け出したい場合は、
+python仮想環境から元のシェル環境にスイッチしたい場合は、仮想環境をdeactivateする。
 
 \$ deactivate
 
-で抜け出すことができる。
+次回以降sshログイン時は、ログイン時に<b><u>自動でpackage_man(airflow)を実行するためのpython仮想環境にスイッチ</u></b>する。  
+ただし、シェルプロンプトの前の(venv_package_man)は表示されない。  
+自身がどのpython実行環境にいるか確認したい場合は、whichコマンドでpythonインタープリタへのパスを表示することで確認することができる。  
+仮想環境のpythonインタープリタが表示されたら、仮想環境にスイッチしている。
 
-次回以降sshログイン時は、自動でpackage_man(airflow)を実行するための仮想環境にスイッチするが、  
-この場合はシェルプロンプトの前の(venv_package_man)が表示されない。
+\$ which python  
+/path/to/venv_package_man/bin/python
+
 
 ※補足２  
-make installコマンド実行時に、package_man(airflow)アプリケーションを実行するための仮想環境が  
-作成される。
 仮想環境は、package_man(airflow)アプリケーションのプロジェクトフォルダ(gitcloneを実行したフォルダ)  に、  "venv_package_man"のフォルダ名で作成される。  
 package_man(airflow)アプリケーションは仮想環境で実行する必要があるため、deactivateコマンドで仮想環境を抜けた後に  
 再度airflowを操作したい場合は、
@@ -82,6 +86,17 @@ package_man(airflow)アプリケーションは仮想環境で実行する必要
 を実行して、仮想環境に入ってからairflowを操作する必要がある。
 
 # ３．アプリケーションの初期設定
+## 3.1. airflowコマンドへのパスが通っているか、確認
+whichコマンドで、airflow実行ファイルへのパスが表示されたらok。
+
+\$ which airflow  
+/path/to/venv_package_man/bin/airflow
+
+補足  
+airflow実行ファイルは、make install実行時に作成されたpython仮想環境の中に作成されている。
+以後、python実行環境がpackage_man(airflow)仮想環境にスイッチされている状態であれば、  
+任意のフォルダですべてのairflowコマンドを実行可能。
+
 ## 3.1. airflow初期ユーザ登録
 airflowの管理コンソールwebにログインするための初期ユーザを設定。
 role以外の設定値は、適宜書き換える。  
@@ -90,7 +105,7 @@ role以外の設定値は、適宜書き換える。
 
 初期パスワード設定のプロンプトが表示されるので、パスワード設定をして初期ユーザ登録は完了。
 
-登録ユーザの確認は、  
+airflowの登録ユーザの確認は、  
 
 \$ airflow users list
 
@@ -103,7 +118,7 @@ role以外の設定値は、適宜書き換える。
 http://\<package_manホストip address\>:8080
 
 とりあえず、初期ユーザでログインできたらok。
-一旦、Ctrl+Cでairflow webサーバのプロセスを落とす。  
+一旦、Ctrl+Cでairflow webサーバのプロセスを落とし、ブラウザを閉じる。  
 
 ## 3.5. 対象ホストの設定
 パッケージ情報を収集先ホストのホスト情報の設定をする。  
@@ -258,18 +273,20 @@ hostのインデックスは、ホストキーで指定したipアドレスと�
 (例)  
 "env": "dev"
 
-# ４．ansibleのログインテスト
+# ４．ansibleのSSHによるログインテスト
 package_man/settings_package_man/hostlist.py  
 が正しく設定できたかどうか確認する。
 
-確認は、ansibleを使って行う。  
-まずは、インベントリファイルを作成。  
+package_manはansibleを使ってhostlist.pyに登録したホストのインストール済パッケージリストを  
+取得する。  
+このため、package_manホストから、パッケージリスト取得対象ホストに対してSSHでログインできる必要がある。  
+この確認は、ansibleを使って行う。  
+まずは、install_toolsフォルダでmake inventoryコマンドを実行して、hostlist.pyから、ansibleのインベントリファイルを作成する。
 
 (venv_package_man)\$ cd package_man/install_tools  
 (venv_package_man)\$ make inventory  
 
-package_man/settings_package_man/hostlist.pyの設定内容を元に、  
-hostlist.pypackage_man/playbook配下に、インベントリファイル"inventory.yml"が自動生成される。  
+ hostlist.pypackage_man/playbook配下に、インベントリファイル"inventory.yml"が自動生成される。  
 
 ansible pingを使って、パッケージデータ収集対象のホストに正しくログインできるか確認。  
 インベントリファイルを使ってansible pingを実行。
@@ -291,14 +308,102 @@ hostname_192.168.0.100 | SUCCESS => {
 &nbsp;&nbsp;"ping": "pong"  
 }  
 ：  
-以下、設定したすべてのホストがerrorなく出力されていればok。  
+以下、設定したすべてのホストがerrorなくSUCESSと出力されていればok。  
 \---------------
 
-ansibleによる対象ホストへのログインの確認のみであり、対象ホストの"package_manager"のチェックは行わない。  
+補足  
+ansible pingの確認は、対象ホストへのログインの確認のみであり、対象ホストの"package_manager"のチェックは行わない。  
 ubuntuホストの"package_manager"に、"yum"などの誤ったパッケージシステムを設定した場合は、
 パッケージ情報収集時にエラーを出力する。
 
-# ５．ansibleのログインテスト
+# ５．package_manアプリケーションの起動
+package_manは、airflowのアプリケーションである。  
+airflowは、2つのサービスで構成される。  
+(1) airflowスケジューラ
+スケジューリングされた設定に従って、hostlist.pyに登録されたホストのインストール済パッケージを取得。  
+デフォルトでは毎時AM2:00に実行される。  
+(2) airflow webサーバ
+アプリケーションの実行ログを管理するためのコンソール。  
+
+以下のコマンドを実行して、スケジューラとairflow webサーバを起動する。
+バックグラウンドプロセスとして起動する場合は、nohupコマンドとリダイレクトを使って起動。
+
+\$ nohup airflow scheduler > /dev/null 2>&1 &
+\$ nohup airflow webserver -p 8080 > /dev/null 2>&1 &
+
+補足  
+airflow webserverのポート番号は自由に設定できる。
+
+補足  
+サービスを落としたい場合は、
+
+\$ ps -ax |grep airflow
+
+で、airfowスケジューラとairflow webサーバそれぞれのメインプロセスのidを確認し、killコマンドでprocess idを指定して落とす。
+
+スケジューラメインプロセスの例
+
+4900 pts/0    S      0:01 /home/user/venv_package_man/bin/python /home/user/venv_package_man/bin/airflow scheduler
+
+この場合、process idは4900。
+
+airflow webサーバのメインプロセスの例
+
+4908 pts/0    S      0:00 /home/user/venv_package_man/bin/python /home/user/venv_package_man/bin/airflow webserver -p 8080
+
+この場合、process idは4908
+
+サービスダウン  
+\$ kill <airflow webサーバのプロセスID>  
+\$ kill <airflow スケジューラのプロセスID>
+
+# ６．対象ホストのインストール済パッケージ情報の収集
+ローカルホストのブラウザを起動し、airflow webサーバにログインする。
+
+http://\<package_manホストip address\>:8080
+
+例  
+http://10.255.1.1:8080
+
+ログイン完了すると、DAGの一覧ページが表示される。  
+DAGとは、airflowが管理するスケジューラプログラムコードである。  
+対象ホストのパッケージ情報を収集するDAGは、
+collect_host_package_list_\<version\>  
+である。
+
+DAGの左にトグルスイッチがついていて、デフォルトではOFFの状態になっているので、クリックしてONにする。
+DAG名collect_host_package_list_\<version\>がリンクになっているので、クリックして  
+DAGの詳細画面を表示する。
+
+画面右上に、右向きの矢印アイコン(実行ボタン)があるので、クリック。  
+DAGが実行され、対象ホストのインストール済パッケージリストを収集する。
+
+画面左に、実行結果が表示される。  
+すべて正常に処理が進んでhostlist.pyのインストール済パッケージ一覧が取得できたら、  
+すべてのゲージが緑色で表示される。  
+エラーが出た場合は、hostlist.pyの設定に誤りがあって、正しく収集できていないため、ログを確認して  
+
+package_man/settings_package_man/hostlist.py  
+
+を正しく修正し、再度DAGを実行してみること。
+
+補足  
+(1)DAG実行ボタンの上に、スケジュール情報が表示されている。  
+デフォルトでは、毎朝2時に自動で実行される。  
+(2)画面左の進捗ゲージ  
+画面左の進捗ゲージにある、  
+update_playbooks～backup_settings_package_man_filesは、このDAGの処理ステップ(task)である。  
+概要は以下のとおり。  
+update_playbooks:  
+&nbsp;&nbsp;hostlist.pyからinventoryファイルと、package情報を収集するためのansible playbookを作成する  
+collect_and_update_installed_host_packages  
+&nbsp;&nbsp;作成されたplaybookを実行して対象ホストのパッケージリストを収集する  
+update_host_packages_parquet_data  
+&nbsp;&nbsp;収集されたホストごとのパッケージリストを分析、加工が容易な表形式に変換し、parquet形式のファイルとして保存。
+backup_settings_package_man_files  
+&nbsp;&nbsp;DAG実行時に、package_man/settings_package_man配下の設定ファイルに変更が生じていた場合は、  
+&nbsp;&nbsp;tar.gz形式のbackupをとっておく。  
+&nbsp;&nbsp;デフォルトでは、バックアップは3世代保存される。
 
 
 

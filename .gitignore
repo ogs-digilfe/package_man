@@ -12,6 +12,7 @@ airflow/airflow.db
 airflow/webserver_config.py
 airflow/logs/*
 airflow/*.pid
+airflow/*.bak
 
 # airflow動作環境をセットするスクリプト
 # インストール環境にあわせて動的に作成されるため、gitでは共有しない。
