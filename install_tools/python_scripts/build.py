@@ -9,7 +9,7 @@ SCRIPT_DIR = PJROOT_DIR / "install_tools" / "python_scripts"
 AIRFLOW_HOME_PATH = PJROOT_DIR / "airflow"
 
 # ENVIRONMENT_FILE_PATH = "/etc/environment"
-SET_AIRFLOW_ENV_SCRIPT_DIR = CURRENT_DIR.parent / "bash_scripts"
+SET_AIRFLOW_ENV_SCRIPT_DIR = CURRENT_DIR.parent
 SET_AIRFLOW_ENV_SCRIPT_FNAME = "set_airflow_env.sh"
 
 
@@ -240,7 +240,6 @@ def make_airfolow_set_env_sh():
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
-    os.makedirs(dir_name, exist_ok=True)
     fpath1 = f'{dir_name}/{SET_AIRFLOW_ENV_SCRIPT_FNAME}'
     with open(fpath1, "w") as f:
         f.write(content)
