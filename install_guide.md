@@ -32,16 +32,14 @@ airflowのインストールに必要なosパッケージをinstallしておく�
 git cloneする際、プロジェクトフォルダごとダウンロードされるため、  
 まずはプロジェクトフォルダをダウンロードするフォルダに移動し、以下のgit cloneコマンドを実行する。  
 プロジェクトフォルダの保存場所(gitcloneを実行するフォルダ)は任意。  
-git cloneコマンドにおいて、リモートリポジトリの後ろにフォルダ名を指定すると、プロジェクトフォルダ名を自身の好みのディレクトリ名に変更することができる。  
-デフォルトのプロジェクトフォルダ名は、"package_man"。
 
 \$ cd /path/to/project_folders  
-\$ git clone https://github.com/ogs-digilfe/package_man [\<your favorit dir pj folder name\>]  
+\$ git clone https://github.com/ogs-digilfe/package_man 
 
 以下、プロジェクトフォルダ名をpackage_manとして記述。
 
 ## 2.3. アプリケーションのビルド
-Makefileを実行する。
+pacage_man/install_tools/Makefileを実行して、アプリケーションをinstall&ビルドする。
 pacage_man/install_toolsに移動し、
 
 \$ make install
@@ -328,7 +326,7 @@ airflowは、2つのサービスで構成される。
 以下のコマンドを実行して、スケジューラとairflow webサーバを起動する。
 バックグラウンドプロセスとして起動する場合は、nohupコマンドとリダイレクトを使って起動。
 
-\$ nohup airflow scheduler > /dev/null 2>&1 &
+\$ nohup airflow scheduler > /dev/null 2>&1 &  
 \$ nohup airflow webserver -p 8080 > /dev/null 2>&1 &
 
 補足  
@@ -405,7 +403,60 @@ backup_settings_package_man_files
 &nbsp;&nbsp;tar.gz形式のbackupをとっておく。  
 &nbsp;&nbsp;デフォルトでは、バックアップは3世代保存される。
 
+# ７．パッケージの検索と脆弱性情報の確認  
+## 7.1. jupyter labの起動
+airflowのDAGが収集したホストごとのパッケージデータは、jupyter labのnotebookを使って検索したり、  
+脆弱性情報に該当するかどうか調べることができる。  
 
+\$ cd package_man/notebooks  
+\$ jupyter lab --ip='0.0.0.0' --no-browser  
+
+    To access the server, open this file in a browser:
+        file:///home/user/.local/share/jupyter/runtime/jpserver-12408-open.html
+    Or copy and paste one of these URLs:
+        http://hostname:8888/lab?token=8cb85ef8d422d6ddbe87cc87bafec9ebe086d09d0de1ab59
+        http://127.0.0.1:8888/lab?token=8cb85ef8d422d6ddbe87cc87bafec9ebe086d09d0de1ab59
+
+package_manホストに接続可能な端末のwebブラウザから、  
+http://\<ip_address\>\:8888
+で起動したjupyter labにアクセス。  
+ログインのためにtokenの入力が求められるので、上記のように、jupyter lab起動時に出力されたtoken  
+をコピーしてログインする。
+
+## 7.2. パッケージの検索
+パッケージの検索は、  
+search_installed_pacages.ipynb  
+で行う。  
+
+jupyter labのweb画面から、
+search_installed_pacages.ipynb  
+を開く。
+
+パラメータ設定セルで、  
+package_name_string = "GnuTLS"  
+のように、パッケージ名のパッケージ名の一部の文字列を代入してjupyter labを実行すると、  
+DAGが収集してきたパッケージリストから、指定した文字列を含むホストとパッケージのリスト  
+を出力する。
+
+## 7.3. パッケージ脆弱性チェック
+パッケージ脆弱性のチェックは、  
+check_vulnerability.ipynb  
+で行う。  
+
+パラメータ設定セルで、 
+
+os = "Ubuntu"  
+os_version = "22.04"  
+package = "zlib1g"  
+package_version = "1.2.11"  
+
+の各項目を代入すると、該当パッケージと、package_versionで指定したバージョン以下の  
+パッケージリストを出力する。  
+
+os, os_version, packageの各項目は正確に指定する必要があることから、  
+先に  
+search_installed_pacages.ipynb  
+でパッケージリストを検索してから利用するとよい。
 
 
 ### 1.1.2 SSH鍵ペアの作成(オプション)とmanaged hostへのコピー(オプション)
