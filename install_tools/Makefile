@@ -8,9 +8,8 @@ PACKAGE := apt
 
 install:
 	python3 $(CURRENT_DIR)/python_scripts/build.py --package $(PACKAGE)
-
-build:
-	source $(CURRENT_DIR)/bash_scripts/set_airflow_env.sh
+	@echo "Building the environment for package_man"
+	@bash $(CURRENT_DIR)/bash_scripts/set_airflow_env.sh
 
 inventory:
 	python3 $(CURRENT_DIR)/python_scripts/make_inventory.py
