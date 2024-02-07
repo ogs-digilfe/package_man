@@ -5,6 +5,7 @@ CURRENT_DIR = Path(__file__).parent
 PJROOT_DIR = CURRENT_DIR.parent.parent
 
 DEFAULT_VENV_DIR = PJROOT_DIR.parent / ("venv_" + str(PJROOT_DIR).split("/")[-1])
+SCRIPT_DIR = PJROOT_DIR / "install_tools" / "python_scripts"
 AIRFLOW_HOME_PATH = PJROOT_DIR / "airflow"
 
 # ENVIRONMENT_FILE_PATH = "/etc/environment"
@@ -230,11 +231,12 @@ def make_airfolow_set_env_sh():
     content += f'export AIRFLOW_HOME="{airflow_home}"\n'
     content += f'export AIRFLOW__CORE__LOAD_EXAMPLES="False"\n'
     content += f'source {venv_path}/bin/activate\n'
+    content2 = content
 
     # /etc/profile.d/{SET_AIRFLOW_ENV_SCRIPT_FNAME}にはもっていかない処理。
-    content2 = content
+    script_path = str(SCRIPT_DIR)
     content += 'airflow db migrate\n'
-    content += f'{venv_path}/bin/python make_airflow_cfg.py\n'
+    content += f'{venv_path}/bin/python {script_path}/make_airflow_cfg.py\n'
 
     # bash scriptの保存
     dir_name = str(SET_AIRFLOW_ENV_SCRIPT_DIR)
