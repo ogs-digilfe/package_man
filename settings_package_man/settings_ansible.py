@@ -9,4 +9,5 @@ ANSIBLE_CONF = {
     "hostname_with_ip": True,
     "get_os_version_playbook_fname": "get-os-version.yml",
     "get_packages_playbook_fname": "get-packages.yml",
+    "upgrade_package_playbook_fname": "upgrade-package.yml"
 }

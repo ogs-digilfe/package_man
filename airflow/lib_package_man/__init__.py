@@ -38,6 +38,9 @@ HOSTNAME_WITH_IP = ANSIBLE_CONF["hostname_with_ip"]
 GET_OS_VERSION_PLAYBOOK_FNAME = ANSIBLE_CONF["get_os_version_playbook_fname"]
 GET_PACKAGES_PLAYBOOK_FNAME = ANSIBLE_CONF["get_packages_playbook_fname"]
 PACKAGE_DATA_FNAME = "package_list_data.parquet"
+# 個別playbooks
+UPGRADE_PACKAGE_PLAYBOOK_DIR = PLAYBOOK_DIR / "upgrade_package_playbook"
+UPGRADE_PACKAGE_PLAYBOOK_FNAME = ANSIBLE_CONF["upgrade_package_playbook_fname"]
 
 ### ツール類
 class PlaybookExecutor():
@@ -414,19 +417,167 @@ class MakePlaybook():
         # playbookが収集してきたデータの出力先フォルダが無ければ、作成
         self._mkdir_playbook_outputdir()
     
-    # self.dfをfilterしてinventoryファイルやplaybookを出力する。
-    # tag_valsは、複数指定する場合はリストで、または１つだけ指定する場合文字列で指定
+    # self.dfをfilterする。
+    # **kwargsで指定できるkey(列名)は、self.dfのindexである"ssh_ip_address"とself.df.columnsの各要素
+    # self.df.columnsの各要素は、hostlist.pyでhostを登録する際にセットしたtag(key-value)により、変動する。
     # 例
-    # instance.filter_hosts(tag_key="env", tag_vals="dev")
-    # instance.filter_hosts(tag_key="name", tag_vals=["home_gw", "stdb1"])
-    # 制限事項
-    # hostlistの"ssh"キーではfilterできない。
-    # "ssh_*"ではじまる"ssh"の値である辞書のキーではfilterできるが、推奨しない
-    def filter_hosts(self, tag_key, tag_vals):
-        if type(tag_vals) == type("string"):
-            self.df = self.df[self.df[tag_key]==tag_vals]
-        elif type(tag_vals) == type(["list"]):
-            self.df = self.df[self.df[tag_key].isin(tag_vals)]
+    # instance.filter_hosts(ssh_ip_address="192.168.0.100", package_manager="apt")
+    # self.dfのindexであるssh_ip_addressでfilterすると、1台のホストのみにfilterされる。
+    def filter_hosts(self, **kwargs):
+        filter_keys = kwargs.keys()
+
+        # filterが設定されていない場合は、何もせずreturnする
+        if len(filter_keys)==0:
+            # return
+            print("no filter data")
+
+        # validation & filter
+        correct_keys = ["ssh_ip_address"] + self.df.columns.tolist()
+        for k in filter_keys:
+            # 正しいfilterが設定されてなければexit
+            if not k in correct_keys:
+                stdout = f'Exception: incorrect key "{k}" was set to filter --> exit process'
+                sys.exit(stdout)
+
+            fv = kwargs[k]
+            if k == "ssh_ip_address":
+                self.df = self.df.loc[fv:fv, :]
+            else:
+                self.df = self.df[self.df[k]==fv]
+
+        # validation2 -> レコード数が0になってしまった場合は、例外を発生させる。
+        if self.df.shape[0] == 0:
+                stdout = f'Exception: No upgrade target host!! --> exit process'
+                sys.exit(stdout)
+
+    # self.dfをfilterして指定したpackageをupgradeするためのinventoryファイルとplaybookを出力する。
+    # **kwargsで指定できるkey(列名)は、self.dfのindexである"ssh_ip_address"とself.df.columnsの各要素
+    # self.df.columnsの各要素は、hostlist.pyでhostを登録する際にセットしたtag(key-value)により、変動する。
+    # 例
+    # instance.make_package_upgrade_playbook(ssh_ip_address="192.168.0.100", package_manager="apt")
+    # self.dfのindexであるssh_ip_addressでfilterすると、1台のホストのみにfilterされる。
+    def make_upgrade_package_inventory_and_playbook(self, package, post_upgrade_task="", service_name="", **kwargs):
+        stdout = "Call MakePlaybook.make_get_packages_playbook method"
+        print(stdout)
+
+        # **kwargsでupgrade対象のhostをfilterする。
+        self.filter_hosts(**kwargs)
+
+        playbook = []
+
+        for ssh_ip_address in self.df.index:
+            hostname = self.df.loc[ssh_ip_address, "name"]
+            manager = self.df.loc[ssh_ip_address, "package_manager"]
+            play = self._make_package_upgrade_play(ssh_ip_address, hostname, manager, package, post_upgrade_task, service_name)
+            playbook.append(play)
+        
+        # 保存dirがなければ作成
+        os.makedirs(UPGRADE_PACKAGE_PLAYBOOK_DIR, exist_ok=True)
+
+        # filter済のself.dfから作成されたplaybookファイルをUPGRADE_PACKAGE_PLAYBOOK_DIRに保存
+        output = yaml.dump(playbook, sort_keys=False)
+        fpath = str(UPGRADE_PACKAGE_PLAYBOOK_DIR/UPGRADE_PACKAGE_PLAYBOOK_FNAME)
+        with open(str(fpath), "w") as f:
+            f.write(output)
+        stdout = f"Playbook {fpath} was made"
+        print(stdout)
+
+        # filter済のself.dfからinventoryファイルを作成して、UPGRADE_PACKAGE_PLAYBOOK_DIRに保存
+        fPath = UPGRADE_PACKAGE_PLAYBOOK_DIR / INVENTORY_FNAME
+        self.make_inventory(fPath)
+
+    def _make_package_upgrade_play(self, ssh_ip_address, hostname, manager, package, post_upgrade_task, service_name):
+        play = {}
+        
+        # nameの生成
+        hostname = self._get_hostname(ssh_ip_address)
+        name_val = f'Upgrade {hostname}\'s {package} package to latest play'
+        play["name"] = name_val
+        
+        # hostsの生成
+        play["hosts"] = hostname
+
+        # become root
+        play["become"] = "yes"
+        
+        # tasksの生成
+        play["tasks"] = self._make_tasks_for_package_upgrade_play(hostname, manager, package, post_upgrade_task, service_name)
+
+        # post_upgrade_taskが指定されていた場合は、handlersをセット。
+        if post_upgrade_task == "reloaded" or post_upgrade_task == "restarted":
+            handlers_name = f'{post_upgrade_task} {service_name}'
+            handlers_service_name = service_name
+            handlers_service_state = post_upgrade_task 
+            play["handlers"] = self._make_handlers_for_package_upgrade_play(handlers_name, handlers_service_name, handlers_service_state)
+        elif post_upgrade_task == "reboot":
+            handlers_name = f'REBOOT {hostname}'
+            play["handlers"] = self._make_handlers_for_package_upgrade_play(handlers_name)
+        elif post_upgrade_task == "":
+            pass
+        else:
+            stdout = f'WARNING!!!: {hostname} --> unknown post_upgrade_task "{post_upgrade_task}" --> ignored\n'
+            print(stdout)
+        
+        return play
+
+    def _make_tasks_for_package_upgrade_play(self, hostname, manager, package, post_upgrade_task="", service_name=""):
+        tasks = []
+        
+        # repositories cach updateタスク
+        dct = {}
+        dct["name"] = f'Update host {hostname}\'s {manager} repositories cache task'
+        dct[manager] = {
+            "update_cache": "yes",
+            "cache_valid_time": 3600,
+        }
+        tasks.append(dct)
+        
+        # package更新タスク
+        dct = {}
+        dct["name"] = f'Upgrade {hostname}\'s {package} package to latest task'
+        dct[f'{manager}'] = {
+            "name": package,
+            "state": "latest"
+        }
+        # post_upgrade_taskが正しく指定されていた場合は、notifyをセット。
+        if post_upgrade_task == "reloaded" or post_upgrade_task == "restarted":
+            dct["notify"] = f'{post_upgrade_task} {service_name}'
+            
+        elif post_upgrade_task == "reboot":
+            dct["notify"] = f'REBOOT {hostname}'
+
+        tasks.append(dct)
+        
+        return tasks
+
+    def _make_handlers_for_package_upgrade_play(self, handlers_name, handlers_service_name="", handlers_service_state=""):
+        handlers = []
+        handler = {}
+        handler["name"] = handlers_name
+
+        # rebootが必要な場合
+        pattern = r"^REBOOT"
+        if re.search(pattern, handlers_name):
+            handler["reboot"] = {
+                "pre_reboot_delay": 10,  # 再起動コマンドを発行する前に待機する秒数
+                "post_reboot_delay": 30,  # 再起動後に待機する秒数
+                "test_command": "uptime",  # システムが正常に起動したことを確認するためのコマンド
+                "reboot_timeout": 300  # 再起動を待つ最大秒数
+            }
+        
+        # その他(reloadedまたはrestarted)の場合
+        # このメソッドの親メソッドで場合分けしているので、rebootでなければreloadedかrestartedしかありえない
+        else:        
+            handler["service"] = {
+                "name": handlers_service_name,
+                "state": handlers_service_state
+            }
+
+        handlers.append(handler)
+
+        return handlers
+
+
     
     def make_get_packages_playbook(self):
         stdout = "Call MakePlaybook.make_get_packages_playbook method"
@@ -434,14 +585,10 @@ class MakePlaybook():
 
         playbook = []
 
-        # 出力先フォルダが無い場合は作成する
-        # 不要になったので、コメントアウト
-        # playbook.append(self._make_initial_play_for_get_packages_playbook())
-
         # inventory fileでは、package managerごとにhostグループを作成しているので、
         # package managerごとにOS情報を取得するplayを作成
-        hosts = self.df["package_manager"].drop_duplicates().tolist()
-        for hg in hosts:
+        host_groups = self.df["package_manager"].drop_duplicates().tolist()
+        for hg in host_groups:
             # OS情報収集結果を出力するためのフォルダを作成するplayを作成してplaybookに追加
             # playbook.append(self._make_get_os_version_plays(hg))
             playbook += self._make_get_package_plays(hg)
@@ -453,7 +600,7 @@ class MakePlaybook():
         with open(str(fpath), "w") as f:
             f.write(output)
         
-        stdout = f"Playbook {str(fpath)} is generated"
+        stdout = f"Playbook {str(fpath)} was made"
         print(stdout)
         print()
 
@@ -561,7 +708,7 @@ class MakePlaybook():
         with open(str(fpath), "w") as f:
             f.write(output)
         
-        stdout = f"Playbook {str(fpath)} is generated"
+        stdout = f"Playbook {str(fpath)} was made"
         print(stdout)
         print()
 
@@ -657,7 +804,7 @@ class MakePlaybook():
         with open(fpath, "w") as f:
             f.write(output)
         
-        stdout = f"Inventory file {str(fpath)} is generated"
+        stdout = f"Inventory file {str(fpath)} was made"
         print(stdout)
         print()
                 
