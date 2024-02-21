@@ -3,8 +3,12 @@
 from pathlib import Path
 import sys
 
-# set package_man project root directory in string type object
 PJROOT_DIR = Path(__file__).parent.parent
+LIB_PACKAGE_MAN_DIR = PJROOT_DIR / "airflow"
+
+sys.path.append(str(LIB_PACKAGE_MAN_DIR))
+
+# set package_man project root directory in string type object
 DATA_DIR = PJROOT_DIR / "data_package_man"
 
 # import objects
@@ -41,6 +45,42 @@ class PackageList():
         # 比較のため、"version"をparseした列を追加
         # ubuntuのバージョニングにある、"12ubuntu4.4"のようなversionは、評価できないため、parsed_version列は0に置き換える
         self.df["parsed_versiondata"] = self.df["transformed_versiondata"].apply(self._parse_versiondata)
+    
+    # package_list_data.parquetから、uniqueなホストリストのみ抽出してpandas.DataFrameオブジェクトで返す
+    # self.dfのinplace処理は行わない。
+    def get_unique_hostlist_df(self, **kwargs):
+        df = self.df
+
+        # nameが指定されている場合
+        keys = kwargs.keys()
+        if "name" in keys:
+            cols = self.df.columns
+        else:
+            cols = [
+                "ssh_ip_address",
+                "hostname",
+                "os",
+                "os_version",
+                "source",
+            ]
+            
+        # **kwargsで抽出する
+        for k in keys:
+                df = df[df[k]==kwargs[k]]
+        
+        df = df[cols]
+
+        # 対象ホストリストの取得
+        hosts = df["ssh_ip_address"].drop_duplicates().values.tolist()
+
+        # ホストリストの抽出
+        ins_MP = MakePlaybook()
+        hostlist_df = ins_MP.df
+        hostlist_df.reset_index(inplace=True, drop=False)
+        print(hostlist_df.columns)
+        hostlist_df = hostlist_df[hostlist_df["ssh_ip_address"].isin(hosts)]
+
+        return hostlist_df
     
     # package_name_string文字列を含む、管理対象ホストへのinstall済packageの一覧をhtml出力するか、
     # html_output_flg = Falseの場合は検索結果のpandas.DataFrameをreturnする。

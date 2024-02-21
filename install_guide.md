@@ -5,8 +5,10 @@
 # １．linux install時に実施すること  
 まずは、sshでアプリケーションを構築するホスト(以下、airflowホスト)にログインする。
 ## 1.1 loginユーザをsudowersに追記
-airflowホストを操作するユーザをsudoersに追加して特権権限を利用できるようにする。
+airflowホストを操作するユーザをsudoersに追加して特権権限を利用できるようにする。  
+
 \$ sudo visudo  
+
 /etc/sudoers  
 が開くので、最終行に、以下を追記。  
 \<username\>は、loginユーザ名に置き換える。
