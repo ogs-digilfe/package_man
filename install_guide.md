@@ -57,16 +57,6 @@ package_man/install_toolsのシェルスクリプト"set_airflow_env.sh"を実�
 シェルスクリプトを実行すると、シェルがpackage_man(airflow)実行するための環境変数をセットし、実行するための仮想環境のシェルにスイッチする。  
 シェルプロンプトの前に仮想環境名(venv_package_man)が表示されればok。
 
-
-※補足１  
-set_airflow_env.shはアプリケーションビルド時に、  
-/etc/profile.d  
-配下にコピーされているので、次回以降sshログイン時は、set_airflow_env.shが実行され、  
-自動で仮想環境にスイッチされるようになっている。  
-python仮想環境から元のシェル環境にスイッチしたい場合は、仮想環境をdeactivateする。
-
-\$ deactivate
-
 次回以降sshログイン時は、ログイン時に<b><u>自動でpackage_man(airflow)を実行するためのpython仮想環境にスイッチ</u></b>する。  
 ただし、シェルプロンプトの前の(venv_package_man)は表示されない。  
 自身がどのpython実行環境にいるか確認したい場合は、whichコマンドでpythonインタープリタへのパスを表示することで確認することができる。  
@@ -74,16 +64,6 @@ python仮想環境から元のシェル環境にスイッチしたい場合は�
 
 \$ which python  
 /path/to/venv_package_man/bin/python
-
-
-※補足２  
-仮想環境は、package_man(airflow)アプリケーションのプロジェクトフォルダ(gitcloneを実行したフォルダ)  に、  "venv_package_man"のフォルダ名で作成される。  
-package_man(airflow)アプリケーションは仮想環境で実行する必要があるため、deactivateコマンドで仮想環境を抜けた後に  
-再度airflowを操作したい場合は、
-
-\$ source /path/to/venv_package_man/bin/activate
-
-を実行して、仮想環境に入ってからairflowを操作する必要がある。
 
 # ３．アプリケーションの初期設定
 ## 3.1. airflowコマンドへのパスが通っているか、確認
@@ -273,6 +253,42 @@ hostのインデックスは、ホストキーで指定したipアドレスと�
 (例)  
 "env": "dev"
 
+## 3.6. 認証情報の環境変数設定(オプション)
+package_man/settings_package_man/hostlist.py  
+で、認証情報を環境変数から参照する場合は、
+
+~/.profile  
+または/および
+/etc/profile.d/set_airflow_env.sh
+
+に、環境変数を設定するexportコマンドのスクリプトを追記する。  
+環境変数はpackage_man/settings_package_man/hostlist.pyから参照される。
+参照される認証情報の環境変数はすべて設定すること。
+
+~/.profileは、~でsshログイン時に実行される。
+/etc/profile.d/set_airflow_env.shは、ホスト起動時に実行される。
+
+例  
+export ANSIBLE_USER=your_loginname  
+export ANSIBLE_SSH_PASS=your_login_password
+
+export ANSIBLE_SSH_PRIVATE_KEY_FILE=/home/username/.ssh/keypair
+
+※対象ホストへのログインに公開鍵認証を利用する場合は、先にkeypairを作成し、ログイン先ホストに公開鍵を渡しておく必要がある。
+
+環境変数の設定が完了したら、  
+~/.profile  
+に設定した場合は一旦logout/loginしなおす。
+
+/etc/profile.d/set_airflow_env.sh  
+に設定した場合は、一度システムを再起動する。
+
+再度ログインしたら、echoコマンドを使って環境変数が正しく設定されているか確認。
+
+確認例  
+\$ echo $ANSIBLE_USER  
+your_loginname
+
 # ４．ansibleのSSHによるログインテスト
 package_man/settings_package_man/hostlist.py  
 が正しく設定できたかどうか確認する。
@@ -310,6 +326,15 @@ hostname_192.168.0.100 | SUCCESS => {
 ：  
 以下、設定したすべてのホストがerrorなくSUCESSと出力されていればok。  
 \---------------
+
+うまくいかない場合は、hostlist.pyの認証情報設定や、環境変数設定がうまくいってない可能性が高い。  
+修正する。  
+
+環境変数の設定を編集した場合は、再度logout/login、または再起動するなどして環境変数を再読み込みさせる。
+
+hostlist.pyを修正した場合は、修正後、再度以下を実行してansible pingで確認。
+(venv_package_man)\$ cd package_man/install_tools  
+(venv_package_man)\$ make inventory  
 
 補足  
 ansible pingの確認は、対象ホストへのログインの確認のみであり、対象ホストの"package_manager"のチェックは行わない。  

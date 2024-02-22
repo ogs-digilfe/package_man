@@ -1,0 +1,11 @@
+- name: Check environment variables
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Print ANSIBLE_USER
+      debug:
+        msg: "ANSIBLE_USER is {{ lookup('env', 'ANSIBLE_USER') }}"
+
+    - name: Print ANSIBLE_SSH_PASS
+      debug:
+        msg: "ANSIBLE_SSH_PASS is {{ lookup('env', 'ANSIBLE_SSH_PASS') }}"
